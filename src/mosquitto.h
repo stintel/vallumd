@@ -18,33 +18,4 @@
  *
  */
 
-#include <getopt.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "mosquitto.h"
-
-int main(int argc, char **argv) {
-    char *host = NULL;
-    char *topic = NULL;
-    unsigned int port = 1883;
-    unsigned int opt = 0;
-
-    while ((opt = getopt(argc, argv, "h:p:t:")) != -1) {
-        switch (opt) {
-            case 'h':
-                host = optarg;
-                break;
-            case 'p':
-                port = atoi(optarg);
-                break;
-            case 't':
-                topic = optarg;
-                break;
-        }
-    }
-
-    init_mqtt(host, port);
-
-    return 0;
-}
+int init_mqtt(char *mqtt_host, int mqtt_port);
