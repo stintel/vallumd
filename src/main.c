@@ -44,6 +44,8 @@ int main(int argc, char **argv) {
         }
     }
 
+    mqtt_topic = topic;
+
     init_mqtt(host, port);
 
     return 0;

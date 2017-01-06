@@ -18,4 +18,6 @@
  *
  */
 
+extern char *mqtt_topic;
+
 int init_mqtt(char *mqtt_host, int mqtt_port);
