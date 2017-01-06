@@ -18,8 +18,29 @@
  *
  */
 
+#include <getopt.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char **argv) {
+    char *host = NULL;
+    char *topic = NULL;
+    unsigned int port = 1883;
+    unsigned int opt = 0;
+
+    while ((opt = getopt(argc, argv, "h:p:t:")) != -1) {
+        switch (opt) {
+            case 'h':
+                host = optarg;
+                break;
+            case 'p':
+                port = atoi(optarg);
+                break;
+            case 't':
+                topic = optarg;
+                break;
+        }
+    }
+
     return 0;
 }
