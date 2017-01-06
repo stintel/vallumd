@@ -1,0 +1,4 @@
+[Project]
+Name=vallumd
+Manager=KDevCMakeManager
+VersionControl=kdevgit
