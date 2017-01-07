@@ -21,6 +21,8 @@
 #include <mosquitto.h>
 #include <stdio.h>
 
+#include "ipset.h"
+
 #define mqtt_cid "vallumd"
 
 char *mqtt_topic;
@@ -29,6 +31,13 @@ void cb_con(struct mosquitto *m, void *userdata, int result)
 {
     if(!result) {
         mosquitto_subscribe(m, NULL, mqtt_topic, 2);
+    }
+}
+
+void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_message *msg)
+{
+    if(msg->payloadlen) {
+        ipset_add("blacklist", msg->payload, 0);
     }
 }
 
@@ -42,6 +51,7 @@ int init_mqtt(char *mqtt_host, int mqtt_port) {
     m = mosquitto_new(mqtt_cid, clean_session, NULL);
 
     mosquitto_connect_callback_set(m, cb_con);
+    mosquitto_message_callback_set(m, cb_msg);
 
     if(mosquitto_connect(m, mqtt_host, mqtt_port, keepalive)) {
         fprintf(stderr, "Unable to connect to %s:%d\n", mqtt_host, mqtt_port);
