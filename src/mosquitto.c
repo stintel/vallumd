@@ -30,6 +30,7 @@ int mqtt_port;
 void cb_con(struct mosquitto *m, void *userdata, int result)
 {
     if(!result) {
+        fprintf(stdout, "Connected to %s:%d\n", mqtt_host, mqtt_port);
         mosquitto_subscribe(m, NULL, mqtt_topic, 2);
     }
 }
