@@ -35,7 +35,7 @@ void cb_con(struct mosquitto *m, void *userdata, int result)
 void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_message *msg)
 {
     if(msg->payloadlen) {
-        ipset_add("blacklist", msg->payload, 0);
+        ipset_add(mqtt_topic, msg->payload, 0);
     }
 }
 
