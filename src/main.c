@@ -26,7 +26,7 @@
 
 int main(int argc, char **argv) {
     char *host = NULL;
-    char *topic = NULL;
+    char *topic = "vallumd";
     unsigned int port = 1883;
     unsigned int opt = 0;
 
