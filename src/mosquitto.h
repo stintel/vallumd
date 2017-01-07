@@ -18,6 +18,8 @@
  *
  */
 
+extern char *mqtt_host;
 extern char *mqtt_topic;
+extern int mqtt_port;
 
-int init_mqtt(char *mqtt_host, int mqtt_port);
+int init_mqtt();

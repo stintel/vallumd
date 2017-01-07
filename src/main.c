@@ -44,9 +44,11 @@ int main(int argc, char **argv) {
         }
     }
 
+    mqtt_host = host;
+    mqtt_port = port;
     mqtt_topic = topic;
 
-    init_mqtt(host, port);
+    init_mqtt();
 
     return 0;
 }

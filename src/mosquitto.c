@@ -23,7 +23,9 @@
 
 #include "ipset.h"
 
+char *mqtt_host;
 char *mqtt_topic;
+int mqtt_port;
 
 void cb_con(struct mosquitto *m, void *userdata, int result)
 {
@@ -46,7 +48,7 @@ void gen_cid(char *mqtt_cid) {
     snprintf(mqtt_cid, MOSQ_MQTT_ID_MAX_LENGTH, "%s-%d", hostname, getpid());
 }
 
-int init_mqtt(char *mqtt_host, int mqtt_port) {
+int init_mqtt() {
     bool clean_session = true;
     char mqtt_cid[MOSQ_MQTT_ID_MAX_LENGTH];
     int keepalive = 60;
