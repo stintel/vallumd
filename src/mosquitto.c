@@ -23,8 +23,6 @@
 
 #include "ipset.h"
 
-#define mqtt_cid "vallumd"
-
 char *mqtt_topic;
 
 void cb_con(struct mosquitto *m, void *userdata, int result)
@@ -41,10 +39,20 @@ void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_message 
     }
 }
 
+void gen_cid(char *mqtt_cid) {
+    char hostname[16];
+
+    gethostname(hostname, 15);
+    snprintf(mqtt_cid, MOSQ_MQTT_ID_MAX_LENGTH, "%s-%d", hostname, getpid());
+}
+
 int init_mqtt(char *mqtt_host, int mqtt_port) {
     bool clean_session = true;
+    char mqtt_cid[MOSQ_MQTT_ID_MAX_LENGTH];
     int keepalive = 60;
     struct mosquitto *m = NULL;
+
+    gen_cid(&mqtt_cid[0]);
 
     mosquitto_lib_init();
 
