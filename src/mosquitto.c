@@ -64,10 +64,7 @@ int init_mqtt() {
     mosquitto_connect_callback_set(m, cb_con);
     mosquitto_message_callback_set(m, cb_msg);
 
-    if(mosquitto_connect(m, mqtt_host, mqtt_port, keepalive)) {
-        fprintf(stderr, "Unable to connect to %s:%d\n", mqtt_host, mqtt_port);
-        return 1;
-    }
+    mosquitto_connect(m, mqtt_host, mqtt_port, keepalive);
 
     mosquitto_loop_forever(m, -1, 1);
 
