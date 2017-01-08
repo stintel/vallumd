@@ -6,6 +6,13 @@ set (vallumd_VERSION_MAJOR 0)
 set (vallumd_VERSION_MINOR 0)
 set (vallumd_VERSION_PATCH 0)
 
+configure_file (
+  "${PROJECT_SOURCE_DIR}/src/config.h.in"
+  "${PROJECT_BINARY_DIR}/config.h"
+)
+
+include_directories("${PROJECT_BINARY_DIR}")
+
 list(APPEND ext_libs ipset)
 list(APPEND ext_libs mosquitto)
 
