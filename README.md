@@ -111,6 +111,6 @@ For fail2ban, this could be done with the Mosquitto client `mosquitto_pub`.
 Create a new action in `/etc/fail2ban/action.d/vallumd.conf`:
 ```
 [Definition]
-actionban = mosquitto_pub -h 192.168.50.5 -t vallumd -m <ip>
+actionban = mosquitto_pub -h 192.168.50.5 -t blacklist -m <ip>
 ```
 And configure your fail2ban jails to use the vallumd action.
