@@ -20,6 +20,7 @@
 
 #include <mosquitto.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include "ipset.h"
 
