@@ -39,6 +39,7 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
 
 static void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_message *msg)
 {
+    (void) m;
     (void) userdata;
     if (msg->payloadlen) {
         ipset_add(mqtt_topic, msg->payload, 0);
