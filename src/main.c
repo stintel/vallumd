@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "config.h"
 #include "mosquitto.h"
 
 int main(int argc, char **argv) {
@@ -30,7 +31,7 @@ int main(int argc, char **argv) {
     unsigned int port = 1883;
     unsigned int opt = 0;
 
-    while ((opt = getopt(argc, argv, "h:p:t:")) != -1) {
+    while ((opt = getopt(argc, argv, "h:p:t:V")) != -1) {
         switch (opt) {
             case 'h':
                 host = optarg;
@@ -41,6 +42,12 @@ int main(int argc, char **argv) {
             case 't':
                 topic = optarg;
                 break;
+            case 'V':
+                fprintf(stdout, "vallumd-%d.%d.%d\n",
+                        VERSION_MAJOR,
+                        VERSION_MINOR,
+                        VERSION_PATCH);
+                return 0;
         }
     }
 
