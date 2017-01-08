@@ -29,6 +29,7 @@ int mqtt_port;
 
 static void cb_con(struct mosquitto *m, void *userdata, int result)
 {
+    (void) userdata;
     if (!result) {
         fprintf(stdout, "Connected to %s:%d\n", mqtt_host, mqtt_port);
         mosquitto_subscribe(m, NULL, mqtt_topic, 2);
@@ -37,6 +38,7 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
 
 static void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_message *msg)
 {
+    (void) userdata;
     if (msg->payloadlen) {
         ipset_add(mqtt_topic, msg->payload, 0);
     }
