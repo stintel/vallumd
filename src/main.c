@@ -62,6 +62,11 @@ int main(int argc, char **argv) {
         }
     }
 
+    if (host == NULL) {
+        print_usage();
+        return 1;
+    }
+
     mqtt_host = host;
     mqtt_port = port;
     mqtt_topic = topic;
