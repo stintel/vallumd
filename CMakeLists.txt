@@ -11,6 +11,8 @@ configure_file (
   "${PROJECT_BINARY_DIR}/config.h"
 )
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -Wextra")
+
 include_directories("${PROJECT_BINARY_DIR}")
 
 list(APPEND ext_libs ipset)
