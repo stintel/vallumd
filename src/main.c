@@ -38,8 +38,8 @@ int main(int argc, char **argv)
 {
     char *host = NULL;
     char *topic = "vallumd";
+    int opt = 0;
     unsigned int port = 1883;
-    unsigned int opt = 0;
 
     while ((opt = getopt(argc, argv, "h:p:t:V")) != -1) {
         switch (opt) {
