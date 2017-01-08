@@ -29,7 +29,7 @@ int mqtt_port;
 
 static void cb_con(struct mosquitto *m, void *userdata, int result)
 {
-    if(!result) {
+    if (!result) {
         fprintf(stdout, "Connected to %s:%d\n", mqtt_host, mqtt_port);
         mosquitto_subscribe(m, NULL, mqtt_topic, 2);
     }
@@ -37,18 +37,21 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
 
 static void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_message *msg)
 {
-    if(msg->payloadlen) {
+    if (msg->payloadlen) {
         ipset_add(mqtt_topic, msg->payload, 0);
     }
 }
-static void gen_cid(char *mqtt_cid) {
+
+static void gen_cid(char *mqtt_cid)
+{
     char hostname[16];
 
     gethostname(hostname, 15);
     snprintf(mqtt_cid, MOSQ_MQTT_ID_MAX_LENGTH, "%s-%d", hostname, getpid());
 }
 
-int init_mqtt() {
+int init_mqtt()
+{
     bool clean_session = true;
     char mqtt_cid[MOSQ_MQTT_ID_MAX_LENGTH];
     int keepalive = 60;
