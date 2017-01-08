@@ -41,8 +41,7 @@ static void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_m
         ipset_add(mqtt_topic, msg->payload, 0);
     }
 }
-
-void gen_cid(char *mqtt_cid) {
+static void gen_cid(char *mqtt_cid) {
     char hostname[16];
 
     gethostname(hostname, 15);
