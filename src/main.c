@@ -25,7 +25,8 @@
 #include "config.h"
 #include "mosquitto.h"
 
-static void print_usage() {
+static void print_usage()
+{
     printf("Usage: -h host [-p port] [-t topic]\n");
     printf(" -h: MQTT host to connect to\n");
     printf(" -p: MQTT port to connect to (1883)\n");
@@ -33,7 +34,8 @@ static void print_usage() {
     printf(" -V: print version number and exit\n");
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     char *host = NULL;
     char *topic = "vallumd";
     unsigned int port = 1883;
