@@ -37,6 +37,33 @@ The name vallumd comes from the Latin word "vallum", which means wall.
 And that's what vallumd does: build a wall to protect your digital empire.
 
 
+Installation
+------------
+
+The nicest way to install any package, is by using your distribution's
+package management. However, since this project is very young, it has not been
+included in any distribution yet.
+
+### Gentoo
+You can find a live ebuild for vallumd in my [Gentoo overlay](https://github.com/stintel/gentoo-overlay)
+
+### Manual install
+Manual installation is very easy.
+Requirements:
+* cmake
+* libipset
+* libmosquitto
+
+Instructions:
+```
+git clone https://github.com/stintel/vallumd.git
+cd vallumd
+cmake .
+make
+make install
+```
+
+
 Usage
 -----
 
