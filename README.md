@@ -44,6 +44,37 @@ The nicest way to install any package, is by using your distribution's
 package management. However, since this project is very young, it has not been
 included in any distribution yet.
 
+### CentOS/RedHat
+
+You can generate an RPM package with cpack:
+```
+sudo wget -P /etc/yum.repos.d/ http://download.opensuse.org/repositories/home:/oojah:/mqtt/CentOS_CentOS-$(awk -v RS=[0-9]+ '{print RT+0;exit}' /etc/redhat-release)/home:oojah:mqtt.repo
+sudo yum -y install cmake ipset-devel libmosquitto-devel '@Development Tools'
+
+git clone https://github.com/stintel/vallumd.git
+cd vallumd
+cmake .
+cpack -G RPM
+
+sudo yum -y localinstall build/*.rpm
+```
+Tested on CentOS 6 and 7.
+
+### Debian/Ubuntu
+
+You can generate a DEB package with cpack:
+```
+sudo apt-get -y install build-essential cmake libipset-dev libmosquitto-dev
+
+git clone https://github.com/stintel/vallumd.git
+cd vallumd
+cmake .
+cpack -G DEB
+
+sudo dpkg -i build/*.deb
+```
+Tested on Debian 8 and Ubuntu 16.04.
+
 ### Gentoo
 You can find a live ebuild for vallumd in my [Gentoo overlay](https://github.com/stintel/gentoo-overlay)
 
