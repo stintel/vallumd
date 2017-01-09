@@ -1,0 +1,15 @@
+[Unit]
+Description=vallumd
+After=network.service
+
+[Service]
+EnvironmentFile=-/etc/conf.d/vallumd
+EnvironmentFile=-/etc/default/vallumd
+EnvironmentFile=-/etc/sysconfig/vallumd
+Type=simple
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/usr/sbin/vallumd -h ${MQTT_HOST} -p ${MQTT_PORT} -t ${MQTT_TOPIC}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
