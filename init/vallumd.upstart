@@ -1,0 +1,13 @@
+# vallumd
+
+author "Stijn Tintel <stijn@linux-ipv6.be>"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+script
+    test -f /etc/default/vallumd && . /etc/default/vallumd
+    test -f /etc/sysconfig/vallumd && . /etc/sysconfig/vallumd
+
+    exec /usr/sbin/vallumd -h ${MQTT_HOST} -p ${MQTT_PORT} -t ${MQTT_TOPIC}
+end script
