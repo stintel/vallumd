@@ -22,6 +22,11 @@ add_executable(vallumd src/main.c src/mosquitto.c src/ipset.c)
 target_link_libraries(vallumd ${ext_libs})
 
 find_package(PkgConfig REQUIRED)
+pkg_search_module(OPENRC QUIET "openrc")
+if (OPENRC_FOUND)
+    install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/init/${PROJECT_NAME}.openrc"
+            DESTINATION "/etc/init.d" RENAME "${PROJECT_NAME}")
+endif ()
 pkg_search_module(SYSTEMD QUIET "systemd")
 if (SYSTEMD_FOUND)
     if ("${SYSTEMD_SYSTEM_UNIT_DIR}" STREQUAL "")
