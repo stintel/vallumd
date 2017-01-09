@@ -24,6 +24,9 @@ target_link_libraries(vallumd ${ext_libs})
 if (EXISTS "/etc/debian_version")
     install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/conf/${PROJECT_NAME}"
             DESTINATION "/etc/default")
+elseif (EXISTS "/etc/redhat-release")
+    install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/conf/${PROJECT_NAME}"
+            DESTINATION "/etc/sysconfig")
 endif ()
 
 find_package(PkgConfig REQUIRED)
