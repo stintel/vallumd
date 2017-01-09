@@ -145,3 +145,16 @@ Create a new action in `/etc/fail2ban/action.d/vallumd.conf`:
 actionban = mosquitto_pub -h 192.168.50.5 -t blacklist -m <ip>
 ```
 And configure your fail2ban jails to use the vallumd action.
+
+
+Running as a service
+--------------------
+
+The packages generated with CPack support OpenRC, Upstart and systemd.
+Service configuration files are where you would expect them in your distro:
+* CentOS/RedHat: /etc/sysconfig/vallumd
+* Debian/Ubuntu: /etc/default/vallumd
+* Gentoo: /etc/conf.d/vallumd
+
+After editing the file relevant for your distribution, start the vallumd service
+just like you would start any other service on your system.
