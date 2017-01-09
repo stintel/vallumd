@@ -21,6 +21,20 @@ list(APPEND ext_libs mosquitto)
 add_executable(vallumd src/main.c src/mosquitto.c src/ipset.c)
 target_link_libraries(vallumd ${ext_libs})
 
+find_package(PkgConfig REQUIRED)
+pkg_search_module(SYSTEMD QUIET "systemd")
+if (SYSTEMD_FOUND)
+    if ("${SYSTEMD_SYSTEM_UNIT_DIR}" STREQUAL "")
+        execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} systemd
+                        --variable=systemdsystemunitdir
+                        OUTPUT_VARIABLE SYSTEMD_SYSTEM_UNIT_DIR
+                        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    endif()
+    set(UNIT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/init")
+    install(FILES "${UNIT_DIR}/${PROJECT_NAME}.service"
+            DESTINATION "${SYSTEMD_SYSTEM_UNIT_DIR}")
+endif ()
+
 install(TARGETS vallumd RUNTIME DESTINATION sbin)
 
 include (CMakeCPack.cmake)
