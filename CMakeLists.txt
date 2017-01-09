@@ -47,7 +47,8 @@ if (SYSTEMD_FOUND)
     install(FILES "${UNIT_DIR}/${PROJECT_NAME}.service"
             DESTINATION "${SYSTEMD_SYSTEM_UNIT_DIR}")
 endif ()
-execute_process(COMMAND /sbin/init --version OUTPUT_VARIABLE INIT_VERSION)
+execute_process(COMMAND /sbin/init --version
+                OUTPUT_VARIABLE INIT_VERSION ERROR_QUIET)
 if ("${INIT_VERSION}" MATCHES "upstart")
     install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/init/${PROJECT_NAME}.upstart"
             DESTINATION "/etc/init" RENAME "${PROJECT_NAME}.conf")
