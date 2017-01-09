@@ -67,7 +67,7 @@ int ipset_add(char *set, char *elem, uint32_t intvl)
 
     ipset_session_fini(sess);
 
-    fprintf(stdout, "Added %s to ipset %s\n", set, elem);
+    fprintf(stdout, "Added %s to ipset %s\n", elem, set);
 
     return 0;
 }
