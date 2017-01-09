@@ -21,6 +21,11 @@ list(APPEND ext_libs mosquitto)
 add_executable(vallumd src/main.c src/mosquitto.c src/ipset.c)
 target_link_libraries(vallumd ${ext_libs})
 
+if (EXISTS "/etc/debian_version")
+    install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/conf/${PROJECT_NAME}"
+            DESTINATION "/etc/default")
+endif ()
+
 find_package(PkgConfig REQUIRED)
 pkg_search_module(OPENRC QUIET "openrc")
 if (OPENRC_FOUND)
