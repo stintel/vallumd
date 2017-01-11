@@ -22,6 +22,8 @@
 #include <libipset/types.h>
 #include <libipset/ui.h>
 
+#include "log.h"
+
 int ipset_add(char *set, char *elem)
 {
     const struct ipset_type *type = NULL;
@@ -33,37 +35,37 @@ int ipset_add(char *set, char *elem)
 
     sess = ipset_session_init(printf);
     if (sess == NULL) {
-        fprintf(stderr, "ipset_add: failed to initialize session\n");
+        pr_err("ipset_add: failed to initialize session\n");
         return 1;
     }
 
     ret = ipset_parse_setname(sess, IPSET_SETNAME, set);
     if (ret < 0) {
-        fprintf(stderr, "ipset_add: failed to parse setname\n");
+        pr_err("ipset_add: failed to parse setname\n");
         return 1;
     }
 
     type = ipset_type_get(sess, cmd);
     if (type == NULL) {
-        fprintf(stderr, "ipset_add: failed to get set type\n");
+        pr_err("ipset_add: failed to get set type\n");
         return 1;
     }
 
     ret = ipset_parse_elem(sess, type->last_elem_optional, elem);
     if (ret < 0) {
-        fprintf(stderr, "ipset_add: failed to parse element: %s\n", elem);
+        pr_err("ipset_add: failed to parse element: %s\n", elem);
         return 1;
     }
 
     ret = ipset_cmd(sess, cmd, 0);
     if (ret < 0) {
-        fprintf(stderr, "ipset_add: failed to execute command\n");
+        pr_err("ipset_add: failed to execute command\n");
         return 1;
     }
 
     ipset_session_fini(sess);
 
-    fprintf(stdout, "Added %s to ipset %s\n", elem, set);
+    pr_info("added %s to ipset %s\n", elem, set);
 
     return 0;
 }
