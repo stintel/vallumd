@@ -42,7 +42,7 @@ static void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_m
     (void) m;
     (void) userdata;
     if (msg->payloadlen) {
-        ipset_add(mqtt_topic, msg->payload);
+        ipset_add(msg->topic, msg->payload);
     }
 }
 
