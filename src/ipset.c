@@ -22,7 +22,7 @@
 #include <libipset/types.h>
 #include <libipset/ui.h>
 
-int ipset_add(char *set, char *elem, uint32_t intvl)
+int ipset_add(char *set, char *elem)
 {
     const struct ipset_type *type = NULL;
     enum ipset_cmd cmd = IPSET_CMD_ADD;
@@ -53,10 +53,6 @@ int ipset_add(char *set, char *elem, uint32_t intvl)
     if (ret < 0) {
         fprintf(stderr, "ipset_add: failed to parse element: %s\n", elem);
         return 1;
-    }
-
-    if (ipset_data_get(ipset_session_data(sess), IPSET_OPT_TIMEOUT)) {
-        ipset_data_set(ipset_session_data(sess), IPSET_OPT_TIMEOUT, &intvl);
     }
 
     ret = ipset_cmd(sess, cmd, 0);
