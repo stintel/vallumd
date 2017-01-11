@@ -23,6 +23,7 @@
 #include <unistd.h>
 
 #include "ipset.h"
+#include "log.h"
 
 char *mqtt_host;
 char *mqtt_topic;
@@ -32,7 +33,7 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
 {
     (void) userdata;
     if (!result) {
-        fprintf(stdout, "Connected to %s:%d\n", mqtt_host, mqtt_port);
+        pr_info("Connected to %s:%d\n", mqtt_host, mqtt_port);
         mosquitto_subscribe(m, NULL, mqtt_topic, 2);
     }
 }
