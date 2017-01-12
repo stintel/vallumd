@@ -41,25 +41,25 @@ int ipset_add(char *set, char *elem)
 
     ret = ipset_parse_setname(sess, IPSET_SETNAME, set);
     if (ret < 0) {
-        pr_err("ipset: failed to parse setname\n");
+        pr_err("ipset: %s\n", ipset_session_error(sess));
         return 1;
     }
 
     type = ipset_type_get(sess, cmd);
     if (type == NULL) {
-        pr_err("ipset: failed to get set type\n");
+        pr_err("ipset: %s\n", ipset_session_error(sess));
         return 1;
     }
 
     ret = ipset_parse_elem(sess, type->last_elem_optional, elem);
     if (ret < 0) {
-        pr_err("ipset: failed to parse element: %s\n", elem);
+        pr_err("ipset: %s\n", ipset_session_error(sess));
         return 1;
     }
 
     ret = ipset_cmd(sess, cmd, 0);
     if (ret < 0) {
-        pr_err("ipset: failed to execute command\n");
+        pr_err("ipset: %s\n", ipset_session_error(sess));
         return 1;
     }
 
