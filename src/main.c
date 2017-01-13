@@ -65,10 +65,7 @@ int main(int argc, char **argv)
                 t++;
                 break;
             case 'V':
-                fprintf(stdout, "vallumd-%d.%d.%d\n",
-                        VERSION_MAJOR,
-                        VERSION_MINOR,
-                        VERSION_PATCH);
+                fprintf(stdout, "vallumd-%s\n", VERSION);
                 return 0;
             default:
                 print_usage();
