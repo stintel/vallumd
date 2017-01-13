@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.12)
 project(vallumd C)
 
 set (vallumd_VERSION_MAJOR 0)
-set (vallumd_VERSION_MINOR 0)
+set (vallumd_VERSION_MINOR 1)
 set (vallumd_VERSION_PATCH 0)
 
 execute_process(COMMAND git describe --tags --dirty
