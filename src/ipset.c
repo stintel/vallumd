@@ -27,6 +27,7 @@
 int exit_error(int e, struct ipset_session *sess)
 {
     pr_err("ipset: %s\n", ipset_session_error(sess));
+    ipset_session_fini(sess);
 
     return e;
 }
