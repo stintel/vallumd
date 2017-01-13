@@ -105,3 +105,13 @@ int ipset_add(char *set, char *elem)
 
     return ret;
 }
+
+int ipset_del(char *set, char *elem)
+{
+    int ret = ipset_do(IPSET_CMD_DEL, set, elem);
+    if (ret == 0) {
+        pr_info("ipset: deleted %s from %s\n", elem, set);
+    }
+
+    return ret;
+}
