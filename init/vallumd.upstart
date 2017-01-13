@@ -9,5 +9,5 @@ script
     test -f /etc/default/vallumd && . /etc/default/vallumd
     test -f /etc/sysconfig/vallumd && . /etc/sysconfig/vallumd
 
-    exec /usr/sbin/vallumd -h ${MQTT_HOST} -p ${MQTT_PORT} -t ${MQTT_TOPIC}
+    exec /usr/sbin/vallumd $VALLUMD_OPTIONS
 end script

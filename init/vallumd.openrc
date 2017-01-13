@@ -5,4 +5,4 @@ command="/usr/sbin/vallumd"
 
 command_background="yes"
 pidfile="/run/${SVCNAME}.pid"
-command_args="-h ${MQTT_HOST} -p ${MQTT_PORT} -t ${MQTT_TOPIC}"
+command_args="$VALLUMD_OPTIONS"

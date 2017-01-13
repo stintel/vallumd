@@ -8,7 +8,7 @@ EnvironmentFile=-/etc/default/vallumd
 EnvironmentFile=-/etc/sysconfig/vallumd
 Type=simple
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/usr/sbin/vallumd -h ${MQTT_HOST} -p ${MQTT_PORT} -t ${MQTT_TOPIC}
+ExecStart=/usr/sbin/vallumd $VALLUMD_OPTIONS
 Restart=always
 
 [Install]
