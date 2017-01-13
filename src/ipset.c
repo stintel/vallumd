@@ -46,10 +46,10 @@ static int ip_valid(char *ipaddr)
     return ret != 0;
 }
 
-int ipset_add(char *set, char *elem)
+int ipset_do(int c, char *set, char *elem)
 {
     const struct ipset_type *type = NULL;
-    enum ipset_cmd cmd = IPSET_CMD_ADD;
+    enum ipset_cmd cmd = c;
     int ret = 0;
     struct ipset_session *sess;
 
@@ -93,7 +93,15 @@ int ipset_add(char *set, char *elem)
 
     ipset_session_fini(sess);
 
-    pr_info("ipset: added %s to %s\n", elem, set);
-
     return 0;
+}
+
+int ipset_add(char *set, char *elem)
+{
+    int ret = ipset_do(IPSET_CMD_ADD, set, elem);
+    if (ret == 0) {
+        pr_info("ipset: added %s to %s\n", elem, set);
+    }
+
+    return ret;
 }
