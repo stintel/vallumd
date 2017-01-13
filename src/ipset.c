@@ -24,6 +24,13 @@
 
 #include "log.h"
 
+int exit_error(int e, struct ipset_session *sess)
+{
+    pr_err("ipset: %s\n", ipset_session_error(sess));
+
+    return e;
+}
+
 int ipset_add(char *set, char *elem)
 {
     const struct ipset_type *type = NULL;
@@ -41,26 +48,22 @@ int ipset_add(char *set, char *elem)
 
     ret = ipset_parse_setname(sess, IPSET_SETNAME, set);
     if (ret < 0) {
-        pr_err("ipset: %s\n", ipset_session_error(sess));
-        return 1;
+        return exit_error(1, sess);
     }
 
     type = ipset_type_get(sess, cmd);
     if (type == NULL) {
-        pr_err("ipset: %s\n", ipset_session_error(sess));
-        return 1;
+        return exit_error(1, sess);
     }
 
     ret = ipset_parse_elem(sess, type->last_elem_optional, elem);
     if (ret < 0) {
-        pr_err("ipset: %s\n", ipset_session_error(sess));
-        return 1;
+        return exit_error(1, sess);
     }
 
     ret = ipset_cmd(sess, cmd, 0);
     if (ret < 0) {
-        pr_err("ipset: %s\n", ipset_session_error(sess));
-        return 1;
+        return exit_error(1, sess);
     }
 
     ipset_session_fini(sess);
