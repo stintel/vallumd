@@ -20,21 +20,31 @@
 
 #include <mosquitto.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "ipset.h"
 #include "log.h"
 
 char *mqtt_host;
-char *mqtt_topic;
+char **mqtt_topics;
 int mqtt_port;
+unsigned int ntopics;
 
 static void cb_con(struct mosquitto *m, void *userdata, int result)
 {
+    unsigned int t = 0;
+
     (void) userdata;
     if (!result) {
         pr_info("Connected to %s:%d\n", mqtt_host, mqtt_port);
-        mosquitto_subscribe(m, NULL, mqtt_topic, 2);
+        for (t = 0; t < ntopics; t++) {
+            if(mosquitto_subscribe(m, NULL, mqtt_topics[t], 2) == MOSQ_ERR_SUCCESS) {
+                pr_info("Subscribed to topic %s", mqtt_topics[t]);
+            }
+            free(mqtt_topics[t]);
+        }
+        free(mqtt_topics);
     }
 }
 

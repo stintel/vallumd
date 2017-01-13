@@ -21,26 +21,36 @@
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "config.h"
 #include "mosquitto.h"
 
 static void print_usage()
 {
-    printf("Usage: -h host [-p port] [-t topic]\n");
+    printf("Usage: -h host [-p port] -t topic1 [-t topicN]\n");
     printf(" -h: MQTT host to connect to\n");
     printf(" -p: MQTT port to connect to (1883)\n");
-    printf(" -t: MQTT topic and IPset name (vallumd)\n");
+    printf(" -t: MQTT topic and IPset name\n");
     printf(" -V: print version number and exit\n");
 }
 
 int main(int argc, char **argv)
 {
     char *host = NULL;
-    char *topic = "vallumd";
     int opt = 0;
     unsigned int port = 1883;
+    unsigned int t = 0;
 
+    while ((opt = getopt(argc, argv, "h:p:t:V")) != -1) {
+        if (opt == 't') {
+            ntopics++;
+        }
+    }
+
+    mqtt_topics = malloc(ntopics * sizeof(*mqtt_topics));
+
+    optind = 0;
     while ((opt = getopt(argc, argv, "h:p:t:V")) != -1) {
         switch (opt) {
             case 'h':
@@ -50,7 +60,9 @@ int main(int argc, char **argv)
                 port = atoi(optarg);
                 break;
             case 't':
-                topic = optarg;
+                mqtt_topics[t] = malloc((strlen(optarg) + 1) * sizeof(char));
+                strcpy(mqtt_topics[t], optarg);
+                t++;
                 break;
             case 'V':
                 fprintf(stdout, "vallumd-%d.%d.%d\n",
@@ -64,14 +76,13 @@ int main(int argc, char **argv)
         }
     }
 
-    if (host == NULL) {
+    if (host == NULL || ntopics == 0) {
         print_usage();
         return 1;
     }
 
     mqtt_host = host;
     mqtt_port = port;
-    mqtt_topic = topic;
 
     init_mqtt();
 
