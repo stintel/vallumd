@@ -122,10 +122,11 @@ Now you can start vallumd. The following command line options exist:
 ```
  -h: MQTT host to connect to
  -p: MQTT port to connect to (1883)
- -t: MQTT topic and IPset name (vallumd)
+ -t: MQTT topic and IPset name
  -V: print version number and exit
 ```
-The host option is required, the others are optional (default value).
+The host and topic options are required, the others are optional (default
+value). It is possible to specify multiple topics.
 
 Starting vallumd:
 `vallumd -h 192.168.0.1 -t blacklist`
