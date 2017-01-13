@@ -6,6 +6,15 @@ set (vallumd_VERSION_MAJOR 0)
 set (vallumd_VERSION_MINOR 0)
 set (vallumd_VERSION_PATCH 0)
 
+execute_process(COMMAND git describe --tags --dirty
+		OUTPUT_VARIABLE GIT_DESCRIBE
+		OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+
+if (NOT "${GIT_DESCRIBE}" VERSION_EQUAL "${vallumd_VERSION_MAJOR}.${vallumd_VERSION_MINOR}.${vallumd_VERSION_PATCH}")
+    set (vallumd_VERSION_TWEAK "${GIT_DESCRIBE}")
+endif ()
+
+
 configure_file (
   "${PROJECT_SOURCE_DIR}/src/config.h.in"
   "${PROJECT_BINARY_DIR}/config.h"

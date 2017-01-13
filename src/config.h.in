@@ -21,3 +21,4 @@
 #define VERSION_MAJOR @vallumd_VERSION_MAJOR@
 #define VERSION_MINOR @vallumd_VERSION_MINOR@
 #define VERSION_PATCH @vallumd_VERSION_PATCH@
+#cmakedefine VERSION_TWEAK @vallumd_VERSION_TWEAK@
