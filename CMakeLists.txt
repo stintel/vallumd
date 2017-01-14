@@ -10,8 +10,10 @@ execute_process(COMMAND git describe --tags --dirty
 		OUTPUT_VARIABLE GIT_DESCRIBE
 		OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
 
-if (NOT "${GIT_DESCRIBE}" VERSION_EQUAL "${vallumd_VERSION_MAJOR}.${vallumd_VERSION_MINOR}.${vallumd_VERSION_PATCH}")
-    set (vallumd_VERSION_TWEAK "${GIT_DESCRIBE}")
+if (NOT "${GIT_DESCRIBE}" STREQUAL "${vallumd_VERSION_MAJOR}.${vallumd_VERSION_MINOR}.${vallumd_VERSION_PATCH}")
+	string(REGEX REPLACE
+		"^${vallumd_VERSION_MAJOR}.${vallumd_VERSION_MINOR}.${vallumd_VERSION_PATCH}-"
+		"" vallumd_VERSION_TWEAK "${GIT_DESCRIBE}")
 endif ()
 
 
