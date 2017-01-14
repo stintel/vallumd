@@ -2,18 +2,18 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(vallumd C)
 
-set (vallumd_VERSION_MAJOR 0)
-set (vallumd_VERSION_MINOR 1)
-set (vallumd_VERSION_PATCH 0)
+set (VERSION_MAJOR 0)
+set (VERSION_MINOR 1)
+set (VERSION_PATCH 0)
 
 execute_process(COMMAND git describe --tags --dirty
 		OUTPUT_VARIABLE GIT_DESCRIBE
 		OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
 
-if (NOT "${GIT_DESCRIBE}" STREQUAL "${vallumd_VERSION_MAJOR}.${vallumd_VERSION_MINOR}.${vallumd_VERSION_PATCH}")
+if (NOT "${GIT_DESCRIBE}" STREQUAL "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 	string(REGEX REPLACE
-		"^${vallumd_VERSION_MAJOR}.${vallumd_VERSION_MINOR}.${vallumd_VERSION_PATCH}-"
-		"" vallumd_VERSION_TWEAK "${GIT_DESCRIBE}")
+		"^${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-"
+		"" VERSION_TWEAK "${GIT_DESCRIBE}")
 endif ()
 
 
