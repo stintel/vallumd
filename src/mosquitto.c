@@ -42,9 +42,7 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
             if(mosquitto_subscribe(m, NULL, mqtt_topics[t], 2) == MOSQ_ERR_SUCCESS) {
                 pr_info("Subscribed to topic %s", mqtt_topics[t]);
             }
-            free(mqtt_topics[t]);
         }
-        free(mqtt_topics);
     }
 }
 
