@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Unreleased
+## 0.1.1 - 2017-01-15
 ### Added
 - Add ChangeLog.
 
