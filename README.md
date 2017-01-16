@@ -165,6 +165,7 @@ Service configuration files are where you would expect them in your distro:
 * CentOS/RedHat: /etc/sysconfig/vallumd
 * Debian/Ubuntu: /etc/default/vallumd
 * Gentoo: /etc/conf.d/vallumd
+* OpenWrt/LEDE: /etc/config/vallumd
 
 After editing the file relevant for your distribution, start the vallumd service
 just like you would start any other service on your system.
