@@ -42,7 +42,7 @@ Installation
 
 The nicest way to install any package, is by using your distribution's
 package management. However, since this project is very young, it has not been
-included in any distribution yet.
+included in many distributions yet.
 
 ### CentOS/RedHat
 
@@ -77,6 +77,15 @@ Tested on Debian 8 and Ubuntu 16.04.
 
 ### Gentoo
 You can find a live ebuild for vallumd in my [Gentoo overlay](https://github.com/stintel/gentoo-overlay)
+
+### OpenWrt/LEDE
+
+If you're running an OpenWrt DD or LEDE Reboot snapshot, vallumd is available
+in the packages feed, and can be installed with opkg:
+```
+opkg update
+opkg install vallumd
+```
 
 ### Manual install
 Manual installation is very easy.
