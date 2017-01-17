@@ -4,6 +4,9 @@
 ### Added
 - Validate IP addresses before adding them to an IPset.
 
+### Changed
+- Reset timeout when adding IP that is already in set.
+
 ## 0.1.1 - 2017-01-15
 ### Added
 - Add ChangeLog.
