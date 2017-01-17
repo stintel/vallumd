@@ -18,9 +18,11 @@
  *
  */
 
+#include <arpa/inet.h>
 #include <libipset/session.h>
 #include <libipset/types.h>
 #include <libipset/ui.h>
+#include <string.h>
 
 #include "log.h"
 
@@ -32,12 +34,29 @@ int exit_error(int e, struct ipset_session *sess)
     return e;
 }
 
+static int ip_valid(char *ipaddr)
+{
+    unsigned int family = 0;
+    unsigned int ret = 0;
+    struct sockaddr_in sa;
+
+    family = strchr(ipaddr, '.') ? AF_INET : AF_INET6;
+
+    ret = inet_pton(family, ipaddr, &(sa.sin_addr));
+    return ret != 0;
+}
+
 int ipset_add(char *set, char *elem)
 {
     const struct ipset_type *type = NULL;
     enum ipset_cmd cmd = IPSET_CMD_ADD;
     int ret = 0;
     struct ipset_session *sess;
+
+    if (!ip_valid(elem)) {
+        pr_err("ipset: %s is not a valid IP address", elem);
+        return 1;
+    }
 
     ipset_load_types();
 
