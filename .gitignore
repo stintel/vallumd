@@ -9,5 +9,7 @@ CPackSourceConfig.cmake
 Makefile
 build/
 cmake_install.cmake
+conffiles
 config.h
 install_manifest.txt
+vallumd
