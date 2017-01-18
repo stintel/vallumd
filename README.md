@@ -130,9 +130,9 @@ Now you can start vallumd. The following command line options exist:
 ```
  -h: MQTT host to connect to
  -p: MQTT port to connect to (1883)
+ -u: MQTT username
  -P: MQTT password
  -t: MQTT topic and IPset name
- -u: MQTT username
  -V: print version number and exit
 ```
 The host and topic options are required, the others are optional (default
