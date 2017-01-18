@@ -28,6 +28,8 @@
 
 char *mqtt_host;
 char **mqtt_topics;
+char *mqtt_username;
+char *mqtt_password;
 int mqtt_port;
 unsigned int ntopics;
 
@@ -79,6 +81,7 @@ int init_mqtt()
     mosquitto_connect_callback_set(m, cb_con);
     mosquitto_message_callback_set(m, cb_msg);
 
+    mosquitto_username_pw_set(m, mqtt_username, mqtt_password);
     mosquitto_connect(m, mqtt_host, mqtt_port, keepalive);
 
     mosquitto_loop_forever(m, -1, 1);

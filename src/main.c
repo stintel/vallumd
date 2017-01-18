@@ -28,9 +28,11 @@
 
 static void print_usage()
 {
-    printf("Usage: -h host [-p port] -t topic1 [-t topicN]\n");
+    printf("Usage: -h host [-p port] [-u username] [-P password] -t topic1 [-t topicN]\n");
     printf(" -h: MQTT host to connect to\n");
     printf(" -p: MQTT port to connect to (1883)\n");
+    printf(" -u: MQTT username\n");
+    printf(" -P: MQTT password\n");    
     printf(" -t: MQTT topic and IPset name\n");
     printf(" -V: print version number and exit\n");
 }
@@ -38,11 +40,13 @@ static void print_usage()
 int main(int argc, char **argv)
 {
     char *host = NULL;
+    char *username = NULL;
+    char *password = NULL;
     int opt = 0;
     unsigned int port = 1883;
     unsigned int t = 0;
 
-    while ((opt = getopt(argc, argv, "h:p:t:V")) != -1) {
+    while ((opt = getopt(argc, argv, "h:p:u:P:t:V")) != -1) {
         if (opt == 't') {
             ntopics++;
         }
@@ -51,13 +55,19 @@ int main(int argc, char **argv)
     mqtt_topics = malloc(ntopics * sizeof(*mqtt_topics));
 
     optind = 0;
-    while ((opt = getopt(argc, argv, "h:p:t:V")) != -1) {
+    while ((opt = getopt(argc, argv, "h:p:u:P:t:V")) != -1) {
         switch (opt) {
             case 'h':
                 host = optarg;
                 break;
             case 'p':
                 port = atoi(optarg);
+                break;
+            case 'u':
+                username = optarg;
+                break;
+            case 'P':
+                password = optarg;
                 break;
             case 't':
                 mqtt_topics[t] = malloc((strlen(optarg) + 1) * sizeof(char));
@@ -80,6 +90,8 @@ int main(int argc, char **argv)
 
     mqtt_host = host;
     mqtt_port = port;
+    mqtt_username = username;
+    mqtt_password = password;
 
     init_mqtt();
 

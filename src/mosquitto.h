@@ -20,6 +20,8 @@
 
 extern char *mqtt_host;
 extern char **mqtt_topics;
+extern char *mqtt_username;
+extern char *mqtt_password;
 extern int mqtt_port;
 extern unsigned int ntopics;
 

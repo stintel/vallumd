@@ -64,8 +64,7 @@ Tested on CentOS 6 and 7.
 
 You can generate a DEB package with cpack:
 ```
-sudo apt-get -y install build-essential cmake libipset-dev libmosquitto-dev
-
+sudo apt-get -y install build-essential cmake libipset-dev libmosquitto-dev pkg-config
 git clone https://github.com/stintel/vallumd.git
 cd vallumd
 cmake .
@@ -131,6 +130,8 @@ Now you can start vallumd. The following command line options exist:
 ```
  -h: MQTT host to connect to
  -p: MQTT port to connect to (1883)
+ -u: MQTT username
+ -P: MQTT password
  -t: MQTT topic and IPset name
  -V: print version number and exit
 ```
