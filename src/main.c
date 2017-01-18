@@ -31,18 +31,22 @@ static void print_usage()
     printf("Usage: -h host [-p port] -t topic1 [-t topicN]\n");
     printf(" -h: MQTT host to connect to\n");
     printf(" -p: MQTT port to connect to (1883)\n");
+    printf(" -P: MQTT password\n");    
     printf(" -t: MQTT topic and IPset name\n");
+    printf(" -u: MQTT username\n");
     printf(" -V: print version number and exit\n");
 }
 
 int main(int argc, char **argv)
 {
     char *host = NULL;
+    char *username = NULL;
+    char *password = NULL;
     int opt = 0;
     unsigned int port = 1883;
     unsigned int t = 0;
 
-    while ((opt = getopt(argc, argv, "h:p:t:V")) != -1) {
+    while ((opt = getopt(argc, argv, "h:p:P:t:u:V")) != -1) {
         if (opt == 't') {
             ntopics++;
         }
@@ -59,10 +63,16 @@ int main(int argc, char **argv)
             case 'p':
                 port = atoi(optarg);
                 break;
+            case 'P':
+                password = optarg;
+                break;
             case 't':
                 mqtt_topics[t] = malloc((strlen(optarg) + 1) * sizeof(char));
                 strcpy(mqtt_topics[t], optarg);
                 t++;
+                break;
+            case 'u':
+                username = optarg;
                 break;
             case 'V':
                 fprintf(stdout, "vallumd-%s\n", VERSION);
@@ -80,6 +90,8 @@ int main(int argc, char **argv)
 
     mqtt_host = host;
     mqtt_port = port;
+    mqtt_username = username;
+    mqtt_password = password;
 
     init_mqtt();
 
