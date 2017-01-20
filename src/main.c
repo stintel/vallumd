@@ -24,6 +24,7 @@
 #include <string.h>
 
 #include "config.h"
+#include "log.h"
 #include "mosquitto.h"
 
 static void print_usage()
@@ -41,6 +42,8 @@ int main(int argc, char **argv)
     int opt = 0;
     unsigned int port = 1883;
     unsigned int t = 0;
+
+    openlog("vallumd", LOG_PID, LOG_DAEMON);
 
     while ((opt = getopt(argc, argv, "h:p:t:V")) != -1) {
         if (opt == 't') {
