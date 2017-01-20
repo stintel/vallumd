@@ -119,7 +119,7 @@ You can choose between these IPset types:
 * hash:ip
 * hash:net
 
-As vallumd only adds IP addresses to an IPset, it's recommend to use the
+As vallumd only adds IP addresses to an IPset, it's recommended to use the
 timeout option while creating the IPset. When adding an element to an
 IPset with the timeout option set, elements added to the set will be
 automatically removed when the timeout expires. This value is in seconds.
