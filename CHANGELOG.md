@@ -1,6 +1,9 @@
 # ChangeLog
 
 ## Unreleased
+### Added
+- Add MQTT username and password option.
+
 ### Fixed
 - Show program name and PID in syslog on musl systems.
 
