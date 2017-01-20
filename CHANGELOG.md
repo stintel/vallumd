@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Unreleased
+## 0.1.2 - 2017-01-18
 ### Added
 - Validate IP addresses before adding them to an IPset.
 
