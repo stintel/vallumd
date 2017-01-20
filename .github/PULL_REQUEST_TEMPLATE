@@ -1,0 +1,22 @@
+Before submitting your pull request, make sure to follow these rules:
+* Subject is prefixed with "<component>: ".
+  When in doubt, see "git log <file(s) you changed>".
+* Subject line is at most 50 chars.
+* No caps after subject prefix, except for acronyms or proper names.
+* Write in imperative form, keeps subject and body short.
+* If you can explain what the commit does in the subject, please do so.
+  Example: "mosquitto: add username and password option"
+  Says enough, no need for further explanation in commit message body.
+* Sign your commits:
+  https://kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
+* Author field should match the Signed-off-by line.
+
+In general: follow best practices. Examples:
+https://git-scm.com/book/ch5-2.html#Commit-Guidelines
+https://kernel.org/doc/html/latest/process/submitting-patches.html
+
+Please remove this message including the marker below before submitting.
+-------------------------------------------------------------------------------
+Describe the PR. For small PRs this can be short. Detailed explanation should
+go in the commit messages when needed. For larger PRs with many commits,
+please summarize the changes and add some reasoning.
