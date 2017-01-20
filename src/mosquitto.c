@@ -26,6 +26,9 @@
 #include "ipset.h"
 #include "log.h"
 
+#ifdef WITH_TLS
+bool mqtt_tls;
+#endif
 char *mqtt_host;
 char **mqtt_topics;
 char *mqtt_username;
@@ -81,6 +84,12 @@ int init_mqtt()
     mosquitto_connect_callback_set(m, cb_con);
     mosquitto_message_callback_set(m, cb_msg);
     mosquitto_username_pw_set(m, mqtt_username, mqtt_password);
+
+#ifdef WITH_TLS
+    if (mqtt_tls) {
+        mosquitto_tls_opts_set(m, 0, NULL, NULL);
+    }
+#endif
 
     mosquitto_connect(m, mqtt_host, mqtt_port, keepalive);
 

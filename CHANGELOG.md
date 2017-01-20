@@ -2,6 +2,7 @@
 
 ## Unreleased
 ### Added
+- Add MQTT TLS support.
 - Add MQTT username and password option.
 
 ### Fixed

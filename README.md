@@ -49,7 +49,7 @@ included in many distributions yet.
 You can generate an RPM package with cpack:
 ```
 sudo wget -P /etc/yum.repos.d/ http://download.opensuse.org/repositories/home:/oojah:/mqtt/CentOS_CentOS-$(awk -v RS=[0-9]+ '{print RT+0;exit}' /etc/redhat-release)/home:oojah:mqtt.repo
-sudo yum -y install cmake ipset-devel libmosquitto-devel pkgconfig '@Development Tools'
+sudo yum -y install cmake ipset-devel libmosquitto-devel openssl-devel pkgconfig '@Development Tools'
 
 git clone https://github.com/stintel/vallumd.git
 cd vallumd
@@ -64,7 +64,7 @@ Tested on CentOS 6 and 7.
 
 You can generate a DEB package with cpack:
 ```
-sudo apt-get -y install build-essential cmake libipset-dev libmosquitto-dev pkg-config
+sudo apt-get -y install build-essential cmake libipset-dev libmosquitto-dev libssl-dev pkg-config
 
 git clone https://github.com/stintel/vallumd.git
 cd vallumd
@@ -93,6 +93,7 @@ Requirements:
 * cmake
 * libipset
 * libmosquitto
+* libssl
 
 Instructions:
 ```
@@ -134,6 +135,7 @@ Now you can start vallumd. The following command line options exist:
  -u: MQTT username
  -P: MQTT password
  -t: MQTT topic and IPset name
+ -T: use TLS
  -V: print version number and exit
 ```
 The host and topic options are required, the others are optional (default

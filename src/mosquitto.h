@@ -18,6 +18,10 @@
  *
  */
 
+#ifdef WITH_TLS
+#include <stdbool.h>
+extern bool mqtt_tls;
+#endif
 extern char *mqtt_host;
 extern char **mqtt_topics;
 extern char *mqtt_username;

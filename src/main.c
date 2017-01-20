@@ -35,11 +35,17 @@ static void print_usage()
     printf(" -u: MQTT username\n");
     printf(" -P: MQTT password\n");
     printf(" -t: MQTT topic and IPset name\n");
+#ifdef WITH_TLS
+    printf(" -T: use TLS\n");
+#endif
     printf(" -V: print version number and exit\n");
 }
 
 int main(int argc, char **argv)
 {
+#ifdef WITH_TLS
+    bool tls = false;
+#endif
     char *host = NULL;
     char *username = NULL;
     char *password = NULL;
@@ -49,7 +55,7 @@ int main(int argc, char **argv)
 
     openlog("vallumd", LOG_PID, LOG_DAEMON);
 
-    while ((opt = getopt(argc, argv, "h:p:P:t:u:V")) != -1) {
+    while ((opt = getopt(argc, argv, "h:p:P:t:Tu:V")) != -1) {
         if (opt == 't') {
             ntopics++;
         }
@@ -58,7 +64,7 @@ int main(int argc, char **argv)
     mqtt_topics = malloc(ntopics * sizeof(*mqtt_topics));
 
     optind = 0;
-    while ((opt = getopt(argc, argv, "h:p:P:t:u:V")) != -1) {
+    while ((opt = getopt(argc, argv, "h:p:P:t:Tu:V")) != -1) {
         switch (opt) {
             case 'h':
                 host = optarg;
@@ -74,6 +80,11 @@ int main(int argc, char **argv)
                 strcpy(mqtt_topics[t], optarg);
                 t++;
                 break;
+#ifdef WITH_TLS
+            case 'T':
+                tls = true;
+                break;
+#endif
             case 'u':
                 username = optarg;
                 break;
@@ -95,6 +106,9 @@ int main(int argc, char **argv)
     mqtt_port = port;
     mqtt_username = username;
     mqtt_password = password;
+#ifdef WITH_TLS
+    mqtt_tls = tls;
+#endif
 
     init_mqtt();
 

@@ -39,6 +39,19 @@ add_definitions(-D_GNU_SOURCE)
 
 include_directories("${PROJECT_BINARY_DIR}")
 
+find_package(PkgConfig REQUIRED)
+
+option (WITH_TLS "Enable TLS support" ON)
+if (${WITH_TLS} STREQUAL ON)
+    pkg_search_module(LIBSSL QUIET "libssl")
+    if (LIBSSL_FOUND)
+        add_definitions("-DWITH_TLS")
+        list(APPEND ext_libs ssl)
+    else ()
+        message(FATAL_ERROR "TLS enabled but LibreSSL or OpenSSL not found!")
+    endif ()
+endif ()
+
 list(APPEND ext_libs ipset)
 list(APPEND ext_libs mosquitto)
 
@@ -56,7 +69,6 @@ elseif (EXISTS "/etc/redhat-release")
             DESTINATION "/etc/sysconfig")
 endif ()
 
-find_package(PkgConfig REQUIRED)
 pkg_search_module(OPENRC QUIET "openrc")
 if (OPENRC_FOUND)
     install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/init/${PROJECT_NAME}.openrc"
