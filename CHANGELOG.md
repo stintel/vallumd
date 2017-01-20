@@ -1,5 +1,9 @@
 # ChangeLog
 
+## Unreleased
+### Fixed
+- Show program name and PID in syslog on musl systems.
+
 ## 0.1.2 - 2017-01-18
 ### Added
 - Validate IP addresses before adding them to an IPset.
