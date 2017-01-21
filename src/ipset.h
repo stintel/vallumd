@@ -20,4 +20,4 @@
 
 #include <libipset/types.h>
 
-int ipset_add(char *set, char *stype);
+int ipset_add(char *set, char *elem);
