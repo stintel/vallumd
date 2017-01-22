@@ -66,9 +66,11 @@ int ipset_do(int c, char *set, char *elem)
         return 1;
     }
 
-    ret = ipset_envopt_parse(sess, IPSET_ENV_EXIST, NULL);
-    if (ret < 0) {
-        return exit_error(1, sess);
+    if (cmd == IPSET_CMD_ADD) {
+        ret = ipset_envopt_parse(sess, IPSET_ENV_EXIST, NULL);
+        if (ret < 0) {
+            return exit_error(1, sess);
+        }
     }
 
     ret = ipset_parse_setname(sess, IPSET_SETNAME, set);
