@@ -20,7 +20,7 @@ How it works
 ------------
 
 Vallumd connects to an MQTT broker, reads messages containing IP addresses,
-and adds those IP addresses to an ipset. Simple as that.
+and adds or deletes those IP addresses to or from an ipset. Simple as that.
 
 This means it is not useful on its own, but it makes vallumd very flexible.
 You can decide for yourself what kind of iptables rule you want to reference
@@ -120,11 +120,6 @@ You can choose between these IPset types:
 * hash:ip
 * hash:net
 
-As vallumd only adds IP addresses to an IPset, it's recommended to use the
-timeout option while creating the IPset. When adding an element to an
-IPset with the timeout option set, elements added to the set will be
-automatically removed when the timeout expires. This value is in seconds.
-
 IPset creation example:
 `ipset create blacklist hash:ip timeout 3600`
 
@@ -146,7 +141,7 @@ Starting vallumd:
 
 This will listen for messages on the MQTT broker at 192.168.0.1, in the
 blacklist topic, and when a message is received, the IP address in the message
-will be added to the IPset named blacklist.
+will be added to or remove from the IPset named blacklist.
 
 So now we have everything in place to start adding IPs to the blacklist.
 All we have to do is configure our IDS, IPS or Honeypot to send malicious
@@ -156,7 +151,8 @@ For fail2ban, this could be done with the Mosquitto client `mosquitto_pub`.
 Create a new action in `/etc/fail2ban/action.d/vallumd.conf`:
 ```
 [Definition]
-actionban = mosquitto_pub -h 192.168.0.1 -q 2 -t blacklist -m <ip>
+actionban = mosquitto_pub -h 192.168.0.1 -q 2 -t blacklist/add -m <ip>
+actionunban = mosquitto_pub -h 192.168.0.1 -q 2 -t blacklist/del -m <ip>
 ```
 And configure your fail2ban jails to use the vallumd action.
 

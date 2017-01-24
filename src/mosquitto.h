@@ -30,3 +30,8 @@ extern int mqtt_port;
 extern unsigned int ntopics;
 
 int init_mqtt();
+
+struct topic {
+    char *action;
+    char *name;
+};

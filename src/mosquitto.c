@@ -21,10 +21,12 @@
 #include <mosquitto.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "ipset.h"
 #include "log.h"
+#include "mosquitto.h"
 
 #ifdef WITH_TLS
 bool mqtt_tls;
@@ -36,17 +38,40 @@ char *mqtt_password;
 int mqtt_port;
 unsigned int ntopics;
 
+static struct topic parse_topic(char *t)
+{
+    struct topic pt;
+
+    pt.action = malloc(4);
+    pt.name = malloc(strlen(t) + 1);
+
+    if (strchr(t, '/') != NULL) {
+        strcpy(pt.name, strsep(&t, "/"));
+        strcpy(pt.action, t);
+    } else {
+        strcpy(pt.name, t);
+        strcpy(pt.action, "add");
+    }
+
+    return pt;
+}
+
 static void cb_con(struct mosquitto *m, void *userdata, int result)
 {
     unsigned int t = 0;
 
     (void) userdata;
     if (!result) {
+        char *topic = NULL;
         pr_info("Connected to %s:%d\n", mqtt_host, mqtt_port);
         for (t = 0; t < ntopics; t++) {
-            if(mosquitto_subscribe(m, NULL, mqtt_topics[t], 2) == MOSQ_ERR_SUCCESS) {
-                pr_info("Subscribed to topic %s", mqtt_topics[t]);
+            topic = malloc(strlen(mqtt_topics[t]) + 3);
+            strcpy(topic, mqtt_topics[t]);
+            strcat(topic, "/#");
+            if(mosquitto_subscribe(m, NULL, topic, 2) == MOSQ_ERR_SUCCESS) {
+                pr_info("Subscribed to topic %s", topic);
             }
+            free(topic);
         }
     }
 }
@@ -56,7 +81,14 @@ static void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_m
     (void) m;
     (void) userdata;
     if (msg->payloadlen) {
-        ipset_add(msg->topic, msg->payload);
+        struct topic pt = parse_topic(msg->topic);
+        if (strcmp(pt.action, "add") == 0) {
+            ipset_add(pt.name, msg->payload);
+        } else if (strcmp(pt.action, "del") == 0) {
+            ipset_del(pt.name, msg->payload);
+        }
+        free(pt.action);
+        free(pt.name);
     }
 }
 
