@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Unreleased
+## 0.1.3 - 2017-02-10
 ### Fixed
 - RPM package installation.
 - Debian package build.
