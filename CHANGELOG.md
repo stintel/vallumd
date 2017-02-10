@@ -2,6 +2,8 @@
 
 ## Unreleased
 ### Fixed
+- RPM package installation.
+- Debian package build.
 - Show program name and PID in syslog on musl systems.
 
 ## 0.1.2 - 2017-01-18
