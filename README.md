@@ -4,7 +4,7 @@ vallumd
 This program allows you to centralize and distribute IP blacklists.
 
 If you maintain a server on the Internet, it's very likely you encountered
-one or more brute force attacks. Not a problem, just install fail2ban. Done.
+one or more brute force attacks. Not a problem, just install fail2ban, or f2b. Done.
 
 But if you're running multiple servers, each of them running their fail2ban
 instance, they'll all have different IP addresses in the ban list. Wouldn't
@@ -47,7 +47,7 @@ included in many distributions yet.
 ### CentOS/RedHat
 
 You can generate an RPM package with cpack:
-```
+```sh
 sudo wget -P /etc/yum.repos.d/ http://download.opensuse.org/repositories/home:/oojah:/mqtt/CentOS_CentOS-$(awk -v RS=[0-9]+ '{print RT+0;exit}' /etc/redhat-release)/home:oojah:mqtt.repo
 sudo yum -y install cmake ipset-devel libmosquitto-devel openssl-devel pkgconfig '@Development Tools'
 
@@ -63,7 +63,7 @@ Tested on CentOS 6 and 7.
 ### Debian/Ubuntu
 
 You can generate a DEB package with cpack:
-```
+```sh
 sudo apt-get -y install build-essential cmake libipset-dev libmosquitto-dev libssl-dev pkg-config
 
 git clone https://github.com/stintel/vallumd.git
@@ -82,7 +82,7 @@ You can find a live ebuild for vallumd in my [Gentoo overlay](https://github.com
 
 If you're running an OpenWrt DD or LEDE Reboot snapshot, vallumd is available
 in the packages feed, and can be installed with opkg:
-```
+```sh
 opkg update
 opkg install vallumd
 ```
@@ -96,7 +96,7 @@ Requirements:
 * libssl
 
 Instructions:
-```
+```sh
 git clone https://github.com/stintel/vallumd.git
 cd vallumd
 cmake .
@@ -124,7 +124,7 @@ IPset creation example:
 `ipset create blacklist hash:ip timeout 3600`
 
 Now you can start vallumd. The following command line options exist:
-```
+```sh
  -h: MQTT host to connect to
  -p: MQTT port to connect to (1883)
  -u: MQTT username
@@ -149,7 +149,7 @@ IP addresses to our MQTT broker.
 
 For fail2ban, this could be done with the Mosquitto client `mosquitto_pub`.
 Create a new action in `/etc/fail2ban/action.d/vallumd.conf`:
-```
+```ini
 [Definition]
 actionban = mosquitto_pub -h 192.168.0.1 -q 2 -t blacklist/add -m <ip>
 actionunban = mosquitto_pub -h 192.168.0.1 -q 2 -t blacklist/del -m <ip>
@@ -162,10 +162,17 @@ Running as a service
 
 The packages generated with CPack support OpenRC, Upstart and systemd.
 Service configuration files are where you would expect them in your distro:
-* CentOS/RedHat: /etc/sysconfig/vallumd
-* Debian/Ubuntu: /etc/default/vallumd
-* Gentoo: /etc/conf.d/vallumd
-* OpenWrt/LEDE: /etc/config/vallumd
+* CentOS/RedHat: `/etc/sysconfig/vallumd`
+* Debian/Ubuntu: `/etc/default/vallumd`
+* Gentoo: `/etc/conf.d/vallumd`
+* OpenWrt/LEDE: `/etc/config/vallumd`
 
 After editing the file relevant for your distribution, start the vallumd service
 just like you would start any other service on your system.
+
+
+Similar projects
+----------------
+
+* [PowerDNS `weakforced`](https://github.com/PowerDNS/weakforced)
+* NetBSD daemon called [blacklistd(8)](https://www.daemon-systems.org/man/blacklistd.8.html)
