@@ -169,3 +169,9 @@ Service configuration files are where you would expect them in your distro:
 
 After editing the file relevant for your distribution, start the vallumd service
 just like you would start any other service on your system.
+
+
+Get involved
+------------
+
+* Join the #vallumd IRC channel on chat.freenode.net
