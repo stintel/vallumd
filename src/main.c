@@ -38,6 +38,7 @@ static void print_usage()
     printf(" -V: print version number and exit\n");
 #ifdef WITH_TLS
     printf("TLS options:\n");
+    printf(" -c: path to CA file\n");
     printf(" -T: use TLS\n");
 #endif
 }
@@ -46,6 +47,7 @@ int main(int argc, char **argv)
 {
 #ifdef WITH_TLS
     bool tls = false;
+    char *cafile = NULL;
 #endif
     char *host = NULL;
     char *username = NULL;
@@ -56,7 +58,7 @@ int main(int argc, char **argv)
 
     openlog("vallumd", LOG_PID, LOG_DAEMON);
 
-    while ((opt = getopt(argc, argv, "h:p:P:t:Tu:V")) != -1) {
+    while ((opt = getopt(argc, argv, "c:h:p:P:t:Tu:V")) != -1) {
         if (opt == 't') {
             ntopics++;
         }
@@ -65,7 +67,7 @@ int main(int argc, char **argv)
     mqtt_topics = malloc(ntopics * sizeof(*mqtt_topics));
 
     optind = 0;
-    while ((opt = getopt(argc, argv, "h:p:P:t:Tu:V")) != -1) {
+    while ((opt = getopt(argc, argv, "c:h:p:P:t:Tu:V")) != -1) {
         switch (opt) {
             case 'h':
                 host = optarg;
@@ -82,6 +84,9 @@ int main(int argc, char **argv)
                 t++;
                 break;
 #ifdef WITH_TLS
+            case 'c':
+                cafile = optarg;
+                break;
             case 'T':
                 tls = true;
                 break;
@@ -103,11 +108,17 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    if (tls && !cafile) {
+        fprintf(stderr, "TLS operation requires a CA file.\n");
+        return 1;
+    }
+
     mqtt_host = host;
     mqtt_port = port;
     mqtt_username = username;
     mqtt_password = password;
 #ifdef WITH_TLS
+    mqtt_cafile = cafile;
     mqtt_tls = tls;
 #endif
 

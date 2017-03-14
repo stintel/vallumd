@@ -21,6 +21,7 @@
 #ifdef WITH_TLS
 #include <stdbool.h>
 extern bool mqtt_tls;
+extern char *mqtt_cafile;
 #endif
 extern char *mqtt_host;
 extern char **mqtt_topics;

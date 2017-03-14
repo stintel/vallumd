@@ -30,6 +30,7 @@
 
 #ifdef WITH_TLS
 bool mqtt_tls;
+char *mqtt_cafile;
 #endif
 char *mqtt_host;
 char **mqtt_topics;
@@ -119,7 +120,7 @@ int init_mqtt()
 
 #ifdef WITH_TLS
     if (mqtt_tls) {
-        mosquitto_tls_opts_set(m, 0, NULL, NULL);
+        mosquitto_tls_set(m, mqtt_cafile, NULL, NULL, NULL, NULL);
     }
 #endif
 
