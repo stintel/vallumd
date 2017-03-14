@@ -35,10 +35,11 @@ static void print_usage()
     printf(" -u: MQTT username\n");
     printf(" -P: MQTT password\n");
     printf(" -t: MQTT topic and IPset name\n");
+    printf(" -V: print version number and exit\n");
 #ifdef WITH_TLS
+    printf("TLS options:\n");
     printf(" -T: use TLS\n");
 #endif
-    printf(" -V: print version number and exit\n");
 }
 
 int main(int argc, char **argv)
