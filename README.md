@@ -130,8 +130,9 @@ Now you can start vallumd. The following command line options exist:
  -u: MQTT username
  -P: MQTT password
  -t: MQTT topic and IPset name
- -T: use TLS
  -V: print version number and exit
+ -c: path to CA file
+ -T: use TLS
 ```
 The host and topic options are required, the others are optional (default
 value). It is possible to specify multiple topics.
