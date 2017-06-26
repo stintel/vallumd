@@ -101,7 +101,7 @@ static void gen_cid(char *mqtt_cid)
     snprintf(mqtt_cid, MOSQ_MQTT_ID_MAX_LENGTH, "%s-%d", hostname, getpid());
 }
 
-int init_mqtt()
+int init_mqtt(void)
 {
     bool clean_session = true;
     char mqtt_cid[MOSQ_MQTT_ID_MAX_LENGTH];
