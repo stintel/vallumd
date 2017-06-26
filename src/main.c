@@ -108,10 +108,12 @@ int main(int argc, char **argv)
         return 1;
     }
 
+#ifdef WITH_TLS
     if (tls && !cafile) {
         fprintf(stderr, "TLS operation requires a CA file.\n");
         return 1;
     }
+#endif
 
     mqtt_host = host;
     mqtt_port = port;
