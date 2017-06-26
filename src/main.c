@@ -27,7 +27,7 @@
 #include "log.h"
 #include "mosquitto.h"
 
-static void print_usage()
+static void print_usage(void)
 {
     printf("Usage: -h host [-p port] [-u username] [-P password] -t topic1 [-t topicN]\n");
     printf(" -h: MQTT host to connect to\n");
