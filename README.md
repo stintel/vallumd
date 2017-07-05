@@ -80,7 +80,7 @@ You can find a live ebuild for vallumd in my [Gentoo overlay](https://github.com
 
 ### OpenWrt/LEDE
 
-If you're running an OpenWrt DD or LEDE Reboot snapshot, vallumd is available
+If you're running an OpenWrt DD snapshot or LEDE, vallumd is available
 in the packages feed, and can be installed with opkg:
 ```
 opkg update
