@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "config.h"
 #include "log.h"
@@ -109,9 +110,16 @@ int main(int argc, char **argv)
     }
 
 #ifdef WITH_TLS
-    if (tls && !cafile) {
-        fprintf(stderr, "TLS operation requires a CA file.\n");
-        return 1;
+    if (tls) {
+        if (cafile) {
+            if (access(cafile, F_OK) == -1) {
+                fprintf(stderr, "CA file %s does not exist.\n", cafile);
+                return 1;
+            }
+        } else {
+            fprintf(stderr, "TLS operation requires a CA file.\n");
+            return 1;
+        }
     }
 #endif
 
