@@ -172,6 +172,11 @@ After editing the file relevant for your distribution, start the vallumd service
 just like you would start any other service on your system.
 
 
+Logging
+-------
+Vallumd uses syslog(3) for logging.
+
+
 Get involved
 ------------
 
