@@ -21,14 +21,23 @@
 #include <arpa/inet.h>
 #include <libipset/session.h>
 #include <libipset/types.h>
-#include <libipset/ui.h>
 #include <string.h>
+
+#ifdef WITH_LIBIPSET_V6_COMPAT
+#include <libipset/ui.h>
+#else
+#include <libipset/ipset.h>
+#endif
 
 #include "log.h"
 
 static int exit_error(int e, struct ipset_session *sess)
 {
+#ifdef WITH_LIBIPSET_V6_COMPAT
     pr_err("ipset: %s\n", ipset_session_error(sess));
+#else
+    ipset_session_report(sess, ipset_session_report_type(sess), "ipset: %s\n");
+#endif
     ipset_session_fini(sess);
 
     return e;
@@ -60,16 +69,24 @@ int ipset_add(char *set, char *elem)
 
     ipset_load_types();
 
+#ifdef WITH_LIBIPSET_V6_COMPAT
     sess = ipset_session_init(printf);
+#else
+    sess = ipset_session_init(NULL, NULL);
+#endif
     if (sess == NULL) {
         pr_err("ipset: failed to initialize session\n");
         return 1;
     }
 
+#ifdef WITH_LIBIPSET_V6_COMPAT
     ret = ipset_envopt_parse(sess, IPSET_ENV_EXIST, NULL);
     if (ret < 0) {
         return exit_error(1, sess);
     }
+#else
+    ipset_envopt_set(sess, IPSET_ENV_EXIST);
+#endif
 
     ret = ipset_parse_setname(sess, IPSET_SETNAME, set);
     if (ret < 0) {

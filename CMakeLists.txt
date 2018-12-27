@@ -39,6 +39,15 @@ add_definitions(-D_GNU_SOURCE)
 
 include_directories("${PROJECT_BINARY_DIR}")
 
+find_package(PkgConfig REQUIRED)
+
+pkg_check_modules(LIBIPSET QUIET libipset)
+
+option (WITH_LIBIPSET_V6_COMPAT "Enable compatibility with libipset version 6" OFF)
+if ((LIBIPSET_FOUND AND LIBIPSET_VERSION VERSION_LESS 7) OR WITH_LIBIPSET_V6_COMPAT)
+    add_definitions("-DWITH_LIBIPSET_V6_COMPAT")
+endif ()
+
 list(APPEND ext_libs ipset)
 list(APPEND ext_libs mosquitto)
 
