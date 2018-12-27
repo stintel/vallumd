@@ -2,6 +2,7 @@
 
 ## Unreleased
 ### Added
+- Support libipset version 7.
 - Add MQTT TLS support.
 - Add MQTT username and password option.
 
