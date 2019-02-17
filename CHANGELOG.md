@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Unreleased
+## 0.1.4 - 2019-02-17
 ### Added
 - Support libipset version 7.
 
