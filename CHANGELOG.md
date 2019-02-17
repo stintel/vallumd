@@ -1,5 +1,12 @@
 # ChangeLog
 
+## Unreleased
+### Added
+- Support libipset version 7.
+
+### Fixed
+- Non-ANSI function declarations.
+
 ## 0.1.3 - 2017-02-10
 ### Fixed
 - RPM package installation.
