@@ -6,6 +6,9 @@
 - Add MQTT TLS support.
 - Add MQTT username and password option.
 
+### Removed
+- EL6 support.
+
 ### Fixed
 - Show program name and PID in syslog on musl systems.
 

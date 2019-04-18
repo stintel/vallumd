@@ -46,10 +46,9 @@ included in many distributions yet.
 
 ### CentOS/RedHat
 
-You can generate an RPM package with cpack:
+Make sure you have the EPEL repository enabled. You can generate an RPM package with cpack:
 ```
-sudo wget -P /etc/yum.repos.d/ http://download.opensuse.org/repositories/home:/oojah:/mqtt/CentOS_CentOS-$(awk -v RS=[0-9]+ '{print RT+0;exit}' /etc/redhat-release)/home:oojah:mqtt.repo
-sudo yum -y install cmake ipset-devel libmosquitto-devel openssl-devel pkgconfig '@Development Tools'
+sudo yum -y install cmake ipset-devel mosquitto-devel openssl-devel pkgconfig '@Development Tools'
 
 git clone https://github.com/stintel/vallumd.git
 cd vallumd
@@ -58,7 +57,7 @@ cpack -G RPM
 
 sudo yum -y localinstall build/*.rpm
 ```
-Tested on CentOS 6 and 7.
+Tested on CentOS 7.
 
 ### Debian/Ubuntu
 
