@@ -4,6 +4,9 @@
 ### Added
 - Support libipset version 7.
 
+### Removed
+- EL6 support.
+
 ### Fixed
 - Non-ANSI function declarations.
 
