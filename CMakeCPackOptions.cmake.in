@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0 */
+# Copyright (C) 2017-2021  Stijn Tintel <stijn@linux-ipv6.be>
+
 execute_process(COMMAND uname -m OUTPUT_VARIABLE ARCHITECTURE)
 
 if(ARCHITECTURE MATCHES "x86_64")
