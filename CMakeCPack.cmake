@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: GPL-3.0 */
+# Copyright (C) 2017-2021  Stijn Tintel <stijn@linux-ipv6.be>
+
 # Packaging information
 set(CPACK_GENERATOR "DEB;RPM")
 set(CPACK_OUTPUT_FILE_PREFIX "build/")
