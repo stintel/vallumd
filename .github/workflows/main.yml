@@ -1,0 +1,13 @@
+on: [push]
+
+jobs:
+  build_debian8:
+    runs-on: ubuntu-latest
+    name: Build for Debian 8
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        uses: ./.github/actions/debian8
+        with:
+          distro: debian8

@@ -1,0 +1,10 @@
+---
+name: 'Build in Docker'
+description: 'Action to build vallumd in a Docker container'
+inputs:
+  distro:
+    description: 'Container distro'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
