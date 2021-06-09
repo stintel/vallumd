@@ -179,4 +179,4 @@ Vallumd uses syslog(3) for logging.
 Get involved
 ------------
 
-* Join the #vallumd IRC channel on chat.freenode.net
+* Join the #vallumd IRC channel on irc.oftc.net
