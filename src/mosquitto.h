@@ -3,6 +3,9 @@
  * Copyright (C) 2017-2021  Stijn Tintel <stijn@linux-ipv6.be>
  */
 
+#ifndef MOSQUITTO_H_INCLUDED
+#define MOSQUITTO_H_INCLUDED
+
 #ifdef WITH_TLS
 #include <stdbool.h>
 extern bool mqtt_tls;
@@ -21,3 +24,5 @@ struct topic {
     char *action;
     char *name;
 };
+
+#endif /* MOSQUITTO_H_INCLUDED */

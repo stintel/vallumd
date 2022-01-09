@@ -3,6 +3,9 @@
  * Copyright (C) 2017-2021  Stijn Tintel <stijn@linux-ipv6.be>
  */
 
+#ifndef CONFIG_H_INCLUDED
+#define CONFIG_H_INCLUDED
+
 #define VERSION_MAJOR @VERSION_MAJOR@
 #define VERSION_MINOR @VERSION_MINOR@
 #define VERSION_PATCH @VERSION_PATCH@
@@ -13,3 +16,5 @@
 #else
 #define VERSION "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@"
 #endif
+
+#endif /* CONFIG_H_INCLUDED */
