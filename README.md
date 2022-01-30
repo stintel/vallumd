@@ -65,7 +65,7 @@ You can generate a DEB package with cpack:
 ```
 sudo apt-get -y install build-essential cmake libipset-dev libmosquitto-dev pkg-config
 
-git clone https://github.com/stintel/vallumd.git
+git clone https://codeberg.org/stintel/vallumd.git
 cd vallumd
 cmake .
 cpack -G DEB
@@ -95,7 +95,7 @@ Requirements:
 
 Instructions:
 ```
-git clone https://github.com/stintel/vallumd.git
+git clone https://codeberg.org/stintel/vallumd.git
 cd vallumd
 cmake .
 make
