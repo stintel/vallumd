@@ -46,18 +46,12 @@ included in many distributions yet.
 
 ### CentOS/RedHat
 
-Make sure you have the EPEL repository enabled. On CentOS 8, the ipset-devel
-package is in the PowerTools repository, so you'll have to enable it.
+Make sure you have the EPEL repository enabled.
 
 
 #### CentOS 7 dependencies
 ```
 sudo yum -y install cmake ipset-devel mosquitto-devel openssl-devel pkgconfig '@Development Tools'
-```
-
-#### CentOS 8 dependencies
-```
-sudo yum -y --enablerepo=PowerTools install cmake ipset-devel mosquitto-devel openssl-devel pkgconfig '@Development Tools'
 ```
 
 #### Common
@@ -70,7 +64,7 @@ cpack -G RPM
 
 sudo yum -y localinstall build/*.rpm
 ```
-Tested on CentOS 7 and 8.
+Tested on CentOS 7.
 
 ### Debian/Ubuntu
 
