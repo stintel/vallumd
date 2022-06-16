@@ -36,7 +36,7 @@ static int exit_error(int e, struct ipset_session *sess)
 #ifdef WITH_LIBIPSET_V6_COMPAT
     pr_err("ipset: %s\n", ipset_session_error(sess));
 #else
-    ipset_session_report(sess, ipset_session_report_type(sess), "ipset: %s\n");
+    pr_err("ipset: %s\n", ipset_session_report_msg(sess));
 #endif
     ipset_session_fini(sess);
 
