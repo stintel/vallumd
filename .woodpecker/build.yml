@@ -1,0 +1,48 @@
+---
+matrix:
+  include:
+    - distro: centos
+      distro_version: 7
+      flavour: rpm
+    - distro: debian
+      distro_version: 10
+      flavour: deb
+    - distro: debian
+      distro_version: 11
+      flavour: deb
+    - distro: ubuntu
+      distro_version: 18.04
+      flavour: deb
+    - distro: ubuntu
+      distro_version: 20.04
+      flavour: deb
+    - distro: ubuntu
+      distro_version: 22.04
+      flavour: deb
+
+pipeline:
+  build_deb:
+    image: ${distro}:${distro_version}
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+    commands:
+      - apt-get update
+      - apt-get -yy install build-essential cmake file git libipset-dev libmosquitto-dev libssl-dev pkg-config
+      - cmake .
+      - cpack -G DEB
+      - apt -yy install ./build/*.deb
+    when:
+      matrix:
+        flavour: deb
+
+  build_rpm:
+    image: ${distro}:${distro_version}
+    commands:
+      - yum -y install epel-release
+      - yum -y install cmake ipset-devel make mosquitto-devel openssl-devel pkgconfig '@Development Tools'
+      - cmake .
+      - cpack -G RPM
+      - yum -y localinstall ./build/*.rpm
+    when:
+      matrix:
+        flavour: rpm
