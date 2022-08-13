@@ -7,7 +7,7 @@ project(vallumd C)
 
 set (VERSION_MAJOR 0)
 set (VERSION_MINOR 2)
-set (VERSION_PATCH 0)
+set (VERSION_PATCH 1)
 
 execute_process(COMMAND git describe --tags --dirty
 		OUTPUT_VARIABLE GIT_DESCRIBE
