@@ -8,12 +8,12 @@
 
 extern int ip_valid(char *ipaddr)
 {
+    unsigned char dst[sizeof(struct in6_addr)];
     unsigned int family = 0;
     unsigned int ret = 0;
-    struct sockaddr_in sa;
 
     family = strchr(ipaddr, '.') ? AF_INET : AF_INET6;
 
-    ret = inet_pton(family, ipaddr, &(sa.sin_addr));
+    ret = inet_pton(family, ipaddr, dst);
     return ret != 0;
 }
