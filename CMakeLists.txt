@@ -56,12 +56,30 @@ include_directories("${PROJECT_BINARY_DIR}")
 
 find_package(PkgConfig REQUIRED)
 
-pkg_check_modules(LIBIPSET QUIET libipset)
+set (USE_BACKEND "ipset" CACHE STRING "vallumd backend")
+set_property(CACHE USE_BACKEND PROPERTY STRINGS "ipset" "nftables")
 
-option (WITH_LIBIPSET_V6_COMPAT "Enable compatibility with libipset version 6" OFF)
-if ((LIBIPSET_FOUND AND LIBIPSET_VERSION VERSION_LESS 7) OR WITH_LIBIPSET_V6_COMPAT)
-    add_definitions("-DWITH_LIBIPSET_V6_COMPAT")
-endif ()
+if (${USE_BACKEND} STREQUAL "ipset")
+    pkg_check_modules(LIBIPSET QUIET libipset)
+
+    option (WITH_LIBIPSET_V6_COMPAT "Enable compatibility with libipset version 6" OFF)
+    if ((LIBIPSET_FOUND AND LIBIPSET_VERSION VERSION_LESS 7) OR WITH_LIBIPSET_V6_COMPAT)
+        add_definitions("-DWITH_LIBIPSET_V6_COMPAT")
+    endif ()
+
+    add_compile_options(-DUSE_IPSET)
+    set (BACKEND_SOURCE "src/ipset.c")
+    list(APPEND ext_libs ipset)
+endif()
+
+if (${USE_BACKEND} STREQUAL "nftables")
+    pkg_check_modules(LIBMNL QUIET libmnl)
+    pkg_check_modules(LIBNFTNL QUIET libnftnl)
+
+    add_compile_options(-DUSE_NFTABLES)
+    set (BACKEND_SOURCE "src/nftnl.c")
+    list(APPEND ext_libs mnl nftnl)
+endif()
 
 option (WITH_TLS "Enable TLS support" ON)
 if (${WITH_TLS} STREQUAL ON)
@@ -74,10 +92,9 @@ if (${WITH_TLS} STREQUAL ON)
     endif ()
 endif ()
 
-list(APPEND ext_libs ipset)
 list(APPEND ext_libs mosquitto)
 
-add_executable(vallumd src/main.c src/mosquitto.c src/ipset.c src/inet.c)
+add_executable(vallumd src/main.c src/mosquitto.c src/inet.c "${BACKEND_SOURCE}")
 target_link_libraries(vallumd ${ext_libs})
 
 if (EXISTS "/etc/debian_version")

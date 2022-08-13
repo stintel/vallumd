@@ -1,6 +1,8 @@
 vallumd
 =======
 
+> :warning: the nftables support is currently experimental
+
 This program allows you to centralize and distribute IP blacklists.
 
 If you maintain a server on the Internet, it's very likely you encountered
@@ -20,11 +22,15 @@ How it works
 ------------
 
 Vallumd connects to an MQTT broker, reads messages containing IP addresses,
-and adds or deletes those IP addresses to or from an ipset. Simple as that.
+and adds or deletes those IP addresses to a backend. Simple as that.
+
+Vallumd supports the following backends:
+* iptables ipset
+* nftables set
 
 This means it is not useful on its own, but it makes vallumd very flexible.
-You can decide for yourself what kind of iptables rule you want to reference
-the ipset in. Integrating it with fail2ban is as simple as creating a new
+You can decide for yourself what kind of firewall rule you want to reference
+the set in. Integrating it with fail2ban is as simple as creating a new
 action that uses mosquitto_pub to send a message to your MQTT broker.
 And since there are MQTT libraries out there for most common languages, it
 shouldn't be too hard to integrate with your favorite IDS, IPS or Honeypot.
@@ -55,7 +61,7 @@ Make sure you have the EPEL repository enabled.
 
 #### CentOS 7 dependencies
 ```
-sudo yum -y install cmake3 ipset-devel mosquitto-devel openssl-devel pkgconfig '@Development Tools'
+sudo yum -y install cmake3 ipset-devel libnftnl-devel mosquitto-devel openssl-devel pkgconfig '@Development Tools'
 ```
 
 #### Common
@@ -63,7 +69,7 @@ You can now generate an RPM package with cpack:
 ```
 git clone https://codeberg.org/stintel/vallumd.git
 cd vallumd
-cmake3 .
+cmake3 -DUSE_BACKEND=[ipset|nftables] .
 cpack3 -G RPM
 
 sudo yum -y localinstall build/*.rpm
@@ -74,11 +80,11 @@ Build-tested on CentOS 7.
 
 You can generate a DEB package with cpack:
 ```
-sudo apt-get -y install build-essential cmake file libipset-dev libmosquitto-dev libssl-dev pkg-config
+sudo apt-get -y install build-essential cmake file libipset-dev libmosquitto-dev libnftnl-dev libssl-dev pkg-config
 
 git clone https://codeberg.org/stintel/vallumd.git
 cd vallumd
-cmake .
+cmake -DUSE_BACKEND=[ipset|nftables] .
 cpack -G DEB
 
 sudo dpkg -i build/*.deb
@@ -103,13 +109,14 @@ Requirements:
 * cmake
 * libipset
 * libmosquitto
+* libnftnl
 * libssl
 
 Instructions:
 ```
 git clone https://codeberg.org/stintel/vallumd.git
 cd vallumd
-cmake .
+cmake -DUSE_BACKEND=[ipset|nftables] .
 make
 make install
 ```
@@ -133,6 +140,9 @@ You can choose between these IPset types:
 IPset creation example:
 `ipset create blacklist hash:ip timeout 3600`
 
+NFTables set creation example:
+`nft add set inet fw4 blacklist '{ type ipv4_addr; timeout 1d; }'`
+
 Now you can start vallumd. The following command line options exist:
 ```
  -h: MQTT host to connect to
@@ -152,7 +162,7 @@ Starting vallumd:
 
 This will listen for messages on the MQTT broker at 192.168.0.1, in the
 blacklist topic, and when a message is received, the IP address in the message
-will be added to or remove from the IPset named blacklist.
+will be added to or remove from the set named blacklist.
 
 So now we have everything in place to start adding IPs to the blacklist.
 All we have to do is configure our IDS, IPS or Honeypot to send malicious
