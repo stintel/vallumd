@@ -6,8 +6,7 @@
 #include <arpa/inet.h>
 #include <string.h>
 
-extern int ip_valid(char *ipaddr)
-{
+extern int get_inet_family(char *ipaddr) {
     unsigned char dst[sizeof(struct in6_addr)];
     unsigned int family = 0;
     unsigned int ret = 0;
@@ -15,5 +14,15 @@ extern int ip_valid(char *ipaddr)
     family = strchr(ipaddr, '.') ? AF_INET : AF_INET6;
 
     ret = inet_pton(family, ipaddr, dst);
-    return ret != 0;
+
+    if (ret == 1) {
+        return family;
+    } else {
+        return AF_UNSPEC;
+    }
+}
+
+extern int ip_valid(char *ipaddr)
+{
+    return get_inet_family(ipaddr) != AF_UNSPEC;
 }
