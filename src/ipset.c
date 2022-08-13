@@ -33,7 +33,7 @@ int ipset_do(int c, char *set, char *elem)
 {
     const struct ipset_type *type = NULL;
     enum ipset_cmd cmd = c;
-    int ret = 0;
+    int family = 0, ret = 0;
     struct ipset_session *sess;
 
     if (!ip_valid(elem)) {
@@ -72,6 +72,12 @@ int ipset_do(int c, char *set, char *elem)
     type = ipset_type_get(sess, cmd);
     if (type == NULL) {
         return exit_error(1, sess);
+    }
+
+    family = ipset_data_family(ipset_session_data(sess));
+    if (family != get_inet_family(elem)) {
+        pr_err("ipset: address %s does not match family of set %s", elem, set);
+        return 1;
     }
 
     ret = ipset_parse_elem(sess, type->last_elem_optional, elem);
