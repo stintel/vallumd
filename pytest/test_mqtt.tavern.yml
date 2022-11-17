@@ -1,0 +1,92 @@
+---
+test_name: test vallumd via mqtt
+paho-mqtt:
+  client:
+    client_id: tavern-woodpecker-ci
+    transport: tcp
+  connect:
+    host: svc-mosquitto
+
+stages:
+  #16 - a83aaaf26b471df891fec04dab50aed24dbaf3c8
+  - name: delete non-existent entry from empty IPv4 ipset
+    mqtt_publish:
+      topic: inet4/del
+      payload: 10.10.10.10
+    mqtt_response:
+      topic: vallumd/will
+      payload: !anything
+      timeout: 1
+      unexpected: true
+
+  - name: delete non-existent entry from empty IPv6 ipset
+    mqtt_publish:
+      topic: inet6/del
+      payload: fc00:6164:6b33:6300::1
+    mqtt_response:
+      topic: vallumd/will
+      payload: !anything
+      timeout: 1
+      unexpected: true
+
+  # correct attempts
+  - name: add IPv4 IP to IPv4 ipset
+    mqtt_publish:
+      topic: inet4/add
+      payload: 10.10.10.10
+    mqtt_response:
+      topic: vallumd/will
+      payload: !anything
+      timeout: 1
+      unexpected: true
+
+  - name: delete IPv4 IP from IPv4 ipset
+    mqtt_publish:
+      topic: inet4/del
+      payload: 10.10.10.10
+    mqtt_response:
+      topic: vallumd/will
+      payload: !anything
+      timeout: 1
+      unexpected: true
+
+  - name: add IPv6 IP to IPv6 ipset
+    mqtt_publish:
+      topic: inet6/add
+      payload: fc00:6164:6b33:6300::1
+    mqtt_response:
+      topic: vallumd/will
+      payload: !anything
+      timeout: 1
+      unexpected: true
+
+  - name: delete IPv6 IP from IPv6 ipset
+    mqtt_publish:
+      topic: inet6/del
+      payload: fc00:6164:6b33:6300::1
+    mqtt_response:
+      topic: vallumd/will
+      payload: !anything
+      timeout: 1
+      unexpected: true
+
+  # incorrect attempts
+  - name: add IPv6 IP to IPv4 ipset
+    mqtt_publish:
+      topic: inet4/add
+      payload: fc00:6164:6b33:6300::1
+    mqtt_response:
+      topic: vallumd/will
+      payload: !anything
+      timeout: 1
+      unexpected: true
+
+  - name: add IPv4 IP to IPv6 ipset
+    mqtt_publish:
+      topic: inet6/add
+      payload: 10.10.10.10
+    mqtt_response:
+      topic: vallumd/will
+      payload: !anything
+      timeout: 1
+      unexpected: true

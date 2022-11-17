@@ -1,0 +1,25 @@
+---
+pipeline:
+  test_debug:
+    image: "${CI_REPO_LINK##https://}-debug:latest"
+    commands:
+      # wait for service containers
+      - sleep 5
+      - py.test pytest/
+
+services:
+  svc-mosquitto:
+    image: "${CI_REPO_LINK##https://}-debug:latest"
+    environment:
+      - SVC=mosquitto
+    pull: true
+    ports: ["1883"]
+
+  svc-vallumd:
+    image: "${CI_REPO_LINK##https://}-debug:latest"
+    environment:
+      - SVC=vallumd
+    pull: true
+
+depends_on:
+  - build_debug

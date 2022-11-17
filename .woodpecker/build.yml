@@ -58,4 +58,4 @@ pipeline:
         flavour: rpm
 
 depends_on:
-  - build_debug
+  - test_debug
