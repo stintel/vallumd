@@ -56,3 +56,6 @@ pipeline:
       event: push
       matrix:
         flavour: rpm
+
+depends_on:
+  - build_debug

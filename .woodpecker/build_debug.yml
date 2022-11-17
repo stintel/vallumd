@@ -1,0 +1,44 @@
+---
+variables:
+  - &container_image 'ubuntu:22.04'
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      tags: true
+    when:
+      event:
+        - push
+        - manual
+
+pipeline:
+  build_debug_app:
+    image: *container_image
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+    commands:
+      - apt-get update
+      - apt-get -yy install --no-install-recommends build-essential cmake file git libipset-dev libmosquitto-dev libssl-dev pkg-config
+      - cmake -DCMAKE_BUILD_TYPE=Debug
+      - cpack -G DEB
+      - apt -yy install ./build/*.deb
+
+  build_debug_container:
+    # preferably set version to avoid breakage due to random versions being used
+    image: woodpeckerci/plugin-docker-buildx:2.0.0
+    environment:
+      container_image: *container_image
+    settings:
+      auto_tag: true
+      dockerfile: .woodpecker/Dockerfile.debug
+      build_args_from_env:
+        - container_image
+      debug: true
+      # avoid MTU issues when building in K8S
+      mtu: 1450
+      password:
+        from_secret: gitea_password
+      registry: "${CI_REPO_LINK}"
+      repo: "${CI_REPO_LINK##https://}-debug"
+      username: "{CI_REPO_OWNER}"

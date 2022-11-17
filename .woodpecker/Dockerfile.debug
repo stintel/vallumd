@@ -1,0 +1,9 @@
+ARG container_image
+FROM $container_image
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+COPY ./build/*.deb /tmp
+
+RUN apt-get -yy update
+RUN apt-get -yy install /tmp/*.deb
