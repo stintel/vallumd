@@ -1,5 +1,8 @@
-vallumd
-=======
+vallumd 0.1.x
+=============
+
+:warning: vallumd 0.1 is EOL - the last release in this branch is 0.1.6
+
 
 This program allows you to centralize and distribute IP blacklists.
 
