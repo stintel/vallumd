@@ -1,4 +1,11 @@
 ---
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      partial: false
+      tags: true
+
 matrix:
   include:
     - distro: centos
