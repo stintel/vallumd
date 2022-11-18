@@ -10,6 +10,8 @@
 #include <stdbool.h>
 #endif
 
+#include <mosquitto.h>
+
 int init_mqtt();
 
 struct mqtt_conn {
@@ -17,6 +19,7 @@ struct mqtt_conn {
     char **topics;
     char *username;
     char *password;
+    char cid[MOSQ_MQTT_ID_MAX_LENGTH];
     int port;
     unsigned int ntopics;
 #ifdef WITH_TLS

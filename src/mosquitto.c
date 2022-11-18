@@ -3,7 +3,6 @@
  * Copyright (C) 2017-2021  Stijn Tintel <stijn@linux-ipv6.be>
  */
 
-#include <mosquitto.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -78,15 +77,14 @@ static void gen_cid(char *mqtt_cid)
 int init_mqtt(void)
 {
     bool clean_session = true;
-    char mqtt_cid[MOSQ_MQTT_ID_MAX_LENGTH];
     int keepalive = 60;
     struct mosquitto *m = NULL;
 
-    gen_cid(&mqtt_cid[0]);
+    gen_cid(&mc.cid[0]);
 
     mosquitto_lib_init();
 
-    m = mosquitto_new(mqtt_cid, clean_session, NULL);
+    m = mosquitto_new(mc.cid, clean_session, NULL);
 
     mosquitto_connect_callback_set(m, cb_con);
     mosquitto_message_callback_set(m, cb_msg);
