@@ -1,0 +1,17 @@
+---
+# explicit clone with conditional
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    when:
+      event: tag
+
+pipeline:
+  gitea_release:
+    image: plugins/gitea-release
+    settings:
+      api_key:
+        from_secret: gitea_password
+      base_url: https://codeberg.org
+    when:
+      event: tag

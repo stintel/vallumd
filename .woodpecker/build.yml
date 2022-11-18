@@ -5,6 +5,8 @@ clone:
     settings:
       partial: false
       tags: true
+    when:
+      event: push
 
 matrix:
   include:
@@ -39,6 +41,7 @@ pipeline:
       - cpack -G DEB
       - apt -yy install ./build/*.deb
     when:
+      event: push
       matrix:
         flavour: deb
 
@@ -51,5 +54,6 @@ pipeline:
       - cpack -G RPM
       - yum -y localinstall ./build/*.rpm
     when:
+      event: push
       matrix:
         flavour: rpm
