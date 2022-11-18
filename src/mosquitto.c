@@ -37,7 +37,7 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
     (void) userdata;
     if (!result) {
         char *topic = NULL;
-        pr_info("Connected to %s:%d\n", mc.host, mc.port);
+        pr_info("Connected to %s:%d using CID %s\n", mc.host, mc.port, mc.cid);
         for (t = 0; t < mc.ntopics; t++) {
             topic = malloc(strlen(mc.topics[t]) + 3);
             strcpy(topic, mc.topics[t]);
