@@ -13,17 +13,6 @@
 #include "log.h"
 #include "mosquitto.h"
 
-#ifdef WITH_TLS
-bool mqtt_tls;
-char *mqtt_cafile;
-#endif
-char *mqtt_host;
-char **mqtt_topics;
-char *mqtt_username;
-char *mqtt_password;
-int mqtt_port;
-unsigned int ntopics;
-
 static struct topic parse_topic(char *t)
 {
     struct topic pt;
@@ -49,10 +38,10 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
     (void) userdata;
     if (!result) {
         char *topic = NULL;
-        pr_info("Connected to %s:%d\n", mqtt_host, mqtt_port);
-        for (t = 0; t < ntopics; t++) {
-            topic = malloc(strlen(mqtt_topics[t]) + 3);
-            strcpy(topic, mqtt_topics[t]);
+        pr_info("Connected to %s:%d\n", mc.host, mc.port);
+        for (t = 0; t < mc.ntopics; t++) {
+            topic = malloc(strlen(mc.topics[t]) + 3);
+            strcpy(topic, mc.topics[t]);
             strcat(topic, "/#");
             if(mosquitto_subscribe(m, NULL, topic, 2) == MOSQ_ERR_SUCCESS) {
                 pr_info("Subscribed to topic %s", topic);
@@ -101,15 +90,15 @@ int init_mqtt(void)
 
     mosquitto_connect_callback_set(m, cb_con);
     mosquitto_message_callback_set(m, cb_msg);
-    mosquitto_username_pw_set(m, mqtt_username, mqtt_password);
+    mosquitto_username_pw_set(m, mc.username, mc.password);
 
 #ifdef WITH_TLS
-    if (mqtt_tls) {
-        mosquitto_tls_set(m, mqtt_cafile, NULL, NULL, NULL, NULL);
+    if (mc.tls) {
+        mosquitto_tls_set(m, mc.cafile, NULL, NULL, NULL, NULL);
     }
 #endif
 
-    mosquitto_connect(m, mqtt_host, mqtt_port, keepalive);
+    mosquitto_connect(m, mc.host, mc.port, keepalive);
 
     mosquitto_loop_forever(m, -1, 1);
 
