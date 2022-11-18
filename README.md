@@ -64,7 +64,7 @@ cpack -G RPM
 
 sudo yum -y localinstall build/*.rpm
 ```
-Tested on CentOS 7.
+Build-tested on CentOS 7.
 
 ### Debian/Ubuntu
 
@@ -79,7 +79,7 @@ cpack -G DEB
 
 sudo dpkg -i build/*.deb
 ```
-Tested on Debian 9, 10 and Ubuntu 18.04, 20.04.
+Build-tested on Debian 10, 11 and Ubuntu 18.04, 20.04, 22.04.
 
 ### Gentoo
 You can find a live ebuild for vallumd in my [Gentoo overlay](https://github.com/stintel/gentoo-overlay)
