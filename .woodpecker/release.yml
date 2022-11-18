@@ -14,5 +14,6 @@ pipeline:
         from_secret: gitea_password
       base_url:
         from_secret: gitea_url
+      title: "vallumd ${CI_COMMIT_TAG}"
     when:
       event: tag
