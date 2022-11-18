@@ -6,6 +6,10 @@
 #ifndef MOSQUITTO_H_INCLUDED
 #define MOSQUITTO_H_INCLUDED
 
+#define MQTT_WILL_QOS 2
+#define MQTT_WILL_RETAIN true
+#define MQTT_WILL_TOPIC "vallumd/will"
+
 #ifdef WITH_TLS
 #include <stdbool.h>
 #endif

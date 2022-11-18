@@ -30,6 +30,12 @@ static struct topic parse_topic(char *t)
     return pt;
 }
 
+static int set_will(struct mosquitto *m)
+{
+	return mosquitto_will_set(m, MQTT_WILL_TOPIC, strlen(mc.cid), mc.cid,
+                              MQTT_WILL_QOS, MQTT_WILL_RETAIN);
+}
+
 static void cb_con(struct mosquitto *m, void *userdata, int result)
 {
     unsigned int t = 0;
@@ -77,7 +83,7 @@ static void gen_cid(char *mqtt_cid)
 int init_mqtt(void)
 {
     bool clean_session = true;
-    int keepalive = 60;
+    int keepalive = 60, ret;
     struct mosquitto *m = NULL;
 
     gen_cid(&mc.cid[0]);
@@ -95,7 +101,10 @@ int init_mqtt(void)
         mosquitto_tls_set(m, mc.cafile, NULL, NULL, NULL, NULL);
     }
 #endif
-
+    ret = set_will(m);
+    if (ret) {
+        pr_err("Failed to set LWT: %d\n", ret);
+    }
     mosquitto_connect(m, mc.host, mc.port, keepalive);
 
     mosquitto_loop_forever(m, -1, 1);
