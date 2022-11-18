@@ -12,6 +12,7 @@ pipeline:
     settings:
       api_key:
         from_secret: gitea_password
-      base_url: https://codeberg.org
+      base_url:
+        from_secret: gitea_url
     when:
       event: tag
