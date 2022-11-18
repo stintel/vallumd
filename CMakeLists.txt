@@ -9,34 +9,35 @@ set (VERSION_MAJOR 0)
 set (VERSION_MINOR 2)
 set (VERSION_PATCH 2)
 
-execute_process(COMMAND git describe --tags --dirty
-		OUTPUT_VARIABLE GIT_DESCRIBE
-		OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
-execute_process(COMMAND git describe --abbrev=0
-                OUTPUT_VARIABLE GIT_LAST_TAG
-                OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+if (EXISTS .git/)
+    execute_process(COMMAND git describe --tags --dirty
+            OUTPUT_VARIABLE GIT_DESCRIBE
+            OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+    execute_process(COMMAND git describe --abbrev=0
+                    OUTPUT_VARIABLE GIT_LAST_TAG
+                    OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
 
-string(LENGTH "${GIT_DESCRIBE}" GIT_DESCRIBE_LEN)
-string(LENGTH "${GIT_LAST_TAG}" GIT_LAST_TAG_LEN)
+    string(LENGTH "${GIT_DESCRIBE}" GIT_DESCRIBE_LEN)
+    string(LENGTH "${GIT_LAST_TAG}" GIT_LAST_TAG_LEN)
 
-if (GIT_DESCRIBE_LEN EQUAL 0 OR GIT_LAST_TAG_LEN EQUAL 0)
-    message(FATAL_ERROR "git describe output empty")
-endif ()
+    if (GIT_DESCRIBE_LEN EQUAL 0 OR GIT_LAST_TAG_LEN EQUAL 0)
+        message(FATAL_ERROR "git describe output empty")
+    endif ()
 
-string(REGEX REPLACE "^${GIT_LAST_TAG}-" "" GIT_DESCRIBE_NOTAG "${GIT_DESCRIBE}")
+    string(REGEX REPLACE "^${GIT_LAST_TAG}-" "" GIT_DESCRIBE_NOTAG "${GIT_DESCRIBE}")
 
-if (NOT "${GIT_DESCRIBE}" STREQUAL "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
-    if ("${GIT_LAST_TAG}" VERSION_LESS
-        "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
-        string(REGEX REPLACE "^${GIT_LAST_TAG}-"
-                "" VERSION_TWEAK "0-pre-${GIT_DESCRIBE_NOTAG}")
-    else ()
-	string(REGEX REPLACE
-		"^${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-"
-		"" VERSION_TWEAK "${GIT_DESCRIBE}")
+    if (NOT "${GIT_DESCRIBE}" STREQUAL "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+        if ("${GIT_LAST_TAG}" VERSION_LESS
+            "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+            string(REGEX REPLACE "^${GIT_LAST_TAG}-"
+                    "" VERSION_TWEAK "0-pre-${GIT_DESCRIBE_NOTAG}")
+        else ()
+        string(REGEX REPLACE
+            "^${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-"
+            "" VERSION_TWEAK "${GIT_DESCRIBE}")
+        endif ()
     endif ()
 endif ()
-
 
 configure_file (
   "${PROJECT_SOURCE_DIR}/src/config.h.in"
