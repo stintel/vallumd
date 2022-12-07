@@ -22,8 +22,8 @@ steps:
       - mkdir /etc/apt.conf.d
       - printf 'Acquire::Retries "3";' > /etc/apt.conf.d/99retries
       - apt-get update
-      - apt-get -yy install --no-install-recommends build-essential cmake file git libipset-dev libmosquitto-dev libssl-dev pkg-config
-      - cmake -DCMAKE_BUILD_TYPE=Debug
+      - apt-get -yy install --no-install-recommends build-essential cmake file git libipset-dev libmosquitto-dev libnftnl-dev libssl-dev pkg-config
+      - cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_BACKEND=nftables
       - cpack -G DEB
       - apt -yy install ./build/*.deb
     when:

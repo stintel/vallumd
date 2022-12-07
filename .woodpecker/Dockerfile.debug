@@ -12,6 +12,7 @@ RUN apt-get -yy update
 RUN apt-get -yy install --no-install-recommends \
 	/tmp/*.deb \
 	ipset \
+	libnftnl-dev \
 	mosquitto \
 	mosquitto-clients
 RUN pip3 install uv

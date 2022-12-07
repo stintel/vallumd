@@ -53,8 +53,8 @@ steps:
       - mkdir /etc/apt.conf.d
       - printf 'Acquire::Retries "3";' > /etc/apt.conf.d/99retries
       - apt-get update
-      - apt-get -yy --no-install-recommends install build-essential cmake file git libipset-dev libmosquitto-dev libssl-dev pkg-config
-      - cmake .
+      - apt-get -yy --no-install-recommends install build-essential cmake file git libipset-dev libmosquitto-dev libnftnl-dev libssl-dev pkg-config
+      - cmake -DUSE_BACKEND=nftables .
       - cpack -G DEB
       - apt -yy install ./build/*.deb
     when:
@@ -71,8 +71,8 @@ steps:
       - sed -i 's|^mirrorlist|#mirrorlist|' /etc/yum.repos.d/CentOS-Base.repo
       - sed -i 's|^#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|' /etc/yum.repos.d/CentOS-Base.repo
       - yum -y install epel-release
-      - yum -y install cmake3 ipset-devel make mosquitto-devel openssl-devel pkgconfig '@Development Tools'
-      - cmake3 .
+      - yum -y install cmake3 ipset-devel libnftnl-devel make mosquitto-devel openssl-devel pkgconfig '@Development Tools'
+      - cmake3 -DUSE_BACKEND=nftables .
       - cpack3 -G RPM
       - yum -y localinstall ./build/*.rpm
     when:

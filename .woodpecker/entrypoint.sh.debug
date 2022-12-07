@@ -2,7 +2,10 @@
 
 [ "$SVC" = "mosquitto" ] && /usr/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf
 [ "$SVC" = "vallumd" ] && {
-	ipset create test4 hash:ip family inet
-	ipset create test6 hash:ip family inet6
+	#ipset create test4 hash:ip family inet
+	#ipset create test6 hash:ip family inet6
+	nft add table inet fw4
+	nft add set inet fw4 test4 '{ type ipv4_addr; }'
+	nft add set inet fw4 test6 '{ type ipv6_addr; }'
 	vallumd -h svc-mosquitto -t test4 -t test6 -t test/subtopic
 }
