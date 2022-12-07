@@ -36,7 +36,7 @@ pipeline:
       - DEBIAN_FRONTEND=noninteractive
     commands:
       - apt-get update
-      - apt-get -yy install build-essential cmake file git libipset-dev libmosquitto-dev libssl-dev pkg-config
+      - apt-get -yy --no-install-recommends install build-essential cmake file git libipset-dev libmosquitto-dev libssl-dev pkg-config
       - cmake .
       - cpack -G DEB
       - apt -yy install ./build/*.deb
