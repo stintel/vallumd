@@ -3,7 +3,6 @@ clone:
   git:
     image: woodpeckerci/plugin-git
     settings:
-      partial: false
       tags: true
     when:
       event: push
