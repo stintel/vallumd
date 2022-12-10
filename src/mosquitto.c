@@ -32,8 +32,7 @@ static struct topic parse_topic(char *t)
 
 static int set_will(struct mosquitto *m)
 {
-	return mosquitto_will_set(m, MQTT_WILL_TOPIC, strlen(mc.cid), mc.cid,
-                              MQTT_WILL_QOS, MQTT_WILL_RETAIN);
+    return mosquitto_will_set(m, MQTT_WILL_TOPIC, strlen(mc.cid), mc.cid, MQTT_WILL_QOS, MQTT_WILL_RETAIN);
 }
 
 static void cb_con(struct mosquitto *m, void *userdata, int result)
@@ -48,7 +47,7 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
             topic = malloc(strlen(mc.topics[t]) + 3);
             strcpy(topic, mc.topics[t]);
             strcat(topic, "/#");
-            if(mosquitto_subscribe(m, NULL, topic, 2) == MOSQ_ERR_SUCCESS) {
+            if (mosquitto_subscribe(m, NULL, topic, 2) == MOSQ_ERR_SUCCESS) {
                 pr_info("Subscribed to topic %s", topic);
             }
             free(topic);
