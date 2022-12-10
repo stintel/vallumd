@@ -6,7 +6,8 @@
 #include <arpa/inet.h>
 #include <string.h>
 
-extern int get_inet_family(char *ipaddr) {
+extern int get_inet_family(char *ipaddr)
+{
     unsigned char dst[sizeof(struct in6_addr)];
     unsigned int family = 0;
     unsigned int ret = 0;
