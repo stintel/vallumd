@@ -22,7 +22,7 @@ How it works
 ------------
 
 Vallumd connects to an MQTT broker, reads messages containing IP addresses,
-and adds or deletes those IP addresses to a backend. Simple as that.
+and adds or deletes those IP addresses to or from a backend. Simple as that.
 
 Vallumd supports the following backends:
 * iptables ipset
@@ -129,6 +129,8 @@ To use vallumd, you need an MQTT broker, like [Mosquitto](https://mosquitto.org/
 Depending on your setup, you can run it on the same host that runs vallumd,
 but that's no requirement.
 
+
+TODO
 The next thing you need is an IPset. To give you full control over the type
 of IPset and its options, vallumd will not create the IPset itself.
 You can choose between these IPset types:

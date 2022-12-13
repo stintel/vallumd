@@ -14,9 +14,7 @@
 
 #include "inet.h"
 #include "log.h"
-
-// TODO: make configurable
-#define NFT_TABLE "fw4"
+#include "nftnl.h"
 
 static struct nftnl_set *nftnl_init_set(const char *tbl, const char *name)
 {
@@ -84,7 +82,7 @@ static int nftnl_send(char *set, char *elem, uint16_t type)
         return ret;
     }
 
-    ns = nftnl_init_set(NFT_TABLE, set);
+    ns = nftnl_init_set(nc.table, set);
     ret = nftnl_init_elem(ns, addr, fam);
     if (ret) {
         return ret;
@@ -96,10 +94,7 @@ static int nftnl_send(char *set, char *elem, uint16_t type)
     nftnl_batch_begin(mnl_nlmsg_batch_current(batch), seq++);
     mnl_nlmsg_batch_next(batch);
 
-    /* NFPROTO_INET  - TODO: make configurable ? */
-    fam = 1;
-
-    nlh = nftnl_nlmsg_build_hdr(mnl_nlmsg_batch_current(batch), type, fam, flags, seq++);
+    nlh = nftnl_nlmsg_build_hdr(mnl_nlmsg_batch_current(batch), type, nc.family, flags, seq++);
     nftnl_set_elems_nlmsg_build_payload(nlh, ns);
     nftnl_set_free(ns);
     mnl_nlmsg_batch_next(batch);
@@ -148,6 +143,8 @@ int nftnl_add(char *set, char *elem)
     ret = nftnl_send(set, elem, type);
     if (!ret) {
         pr_info("nftnl: added %s to %s\n", elem, set);
+    } else {
+        pr_err("nftnl: failed to add %s to %s: %s\n", elem, set, strerror(ret));
     }
 
     return ret;
@@ -162,6 +159,8 @@ int nftnl_del(char *set, char *elem)
     ret = nftnl_send(set, elem, type);
     if (!ret) {
         pr_info("nftnl: deleted %s from %s\n", elem, set);
+    } else {
+        pr_err("nftnl: failed to remove %s from %s: %s\n", elem, set, strerror(ret));
     }
 
     return ret;

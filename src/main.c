@@ -12,6 +12,7 @@
 #include "config.h"
 #include "log.h"
 #include "mosquitto.h"
+#include "nftnl.h"
 
 enum {
     default_mqtt_port = 1883
@@ -24,6 +25,13 @@ struct mqtt_conn mqttconn = {
     .tls = false,
 #endif
 };
+
+#ifdef USE_NFTABLES
+struct nft_conf nc = {
+    .family = 1, /* NFPROTO_INET */
+    .table = "fw4",
+};
+#endif
 
 static void print_usage(void)
 {
@@ -38,6 +46,11 @@ static void print_usage(void)
     printf("TLS options:\n");
     printf(" -c: path to CA file\n");
     printf(" -T: use TLS\n");
+#endif
+#ifdef USE_NFTABLES
+    printf("NFTables options:\n");
+    printf(" -f: nftables family\n");
+    printf(" -n: nftables table\n");
 #endif
 }
 
@@ -65,7 +78,7 @@ int main(int argc, char **argv)
     mqttconn.topics = (char **) malloc(mqttconn.ntopics * sizeof(*mqttconn.topics));
 
     optind = 0;
-    while ((opt = getopt(argc, argv, "c:h:p:P:t:Tu:V")) != -1) {
+    while ((opt = getopt(argc, argv, "c:f:h:n:p:P:t:Tu:V")) != -1) {
         switch (opt) {
             case 'h':
                 mqttconn.host = optarg;
@@ -86,6 +99,14 @@ int main(int argc, char **argv)
                 break;
             case 'T':
                 mqttconn.tls = true;
+                break;
+#endif
+#ifdef USE_NFTABLES
+            case 'f':
+                nc.family = atoi(optarg);
+                break;
+            case 'n':
+                nc.table = optarg;
                 break;
 #endif
             case 'u':
