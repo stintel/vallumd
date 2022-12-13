@@ -78,8 +78,8 @@ static int nftnl_send(char *set, char *elem, uint16_t type)
 
     fam = get_inet_family(elem);
     ret = inet_pton(fam, elem, addr);
-    if (ret != 1) {
-        return ret;
+    if (ret < 0) {
+        return errno;
     }
 
     ns = nftnl_init_set(nc.table, set);
@@ -103,17 +103,19 @@ static int nftnl_send(char *set, char *elem, uint16_t type)
 
     nl = mnl_socket_open(NETLINK_NETFILTER);
     if (nl == NULL) {
-        return -1;
+        return errno;
     }
 
-    if (mnl_socket_bind(nl, 0, MNL_SOCKET_AUTOPID) < 0) {
-        return -1;
+    ret = mnl_socket_bind(nl, 0, MNL_SOCKET_AUTOPID);
+    if (ret < 0) {
+        return ret;
     }
 
     portid = mnl_socket_get_portid(nl);
 
-    if (mnl_socket_sendto(nl, mnl_nlmsg_batch_head(batch), mnl_nlmsg_batch_size(batch)) < 0) {
-        return -1;
+    ret = mnl_socket_sendto(nl, mnl_nlmsg_batch_head(batch), mnl_nlmsg_batch_size(batch));
+    if (ret < 0) {
+        return ret;
     }
 
     mnl_nlmsg_batch_stop(batch);
@@ -144,7 +146,7 @@ int nftnl_add(char *set, char *elem)
     if (!ret) {
         pr_info("nftnl: added %s to %s\n", elem, set);
     } else {
-        pr_err("nftnl: failed to add %s to %s: %s\n", elem, set, strerror(ret));
+        pr_err("nftnl: failed to add %s to %s: %s\n", elem, set, strerror(-ret));
     }
 
     return ret;
@@ -160,7 +162,7 @@ int nftnl_del(char *set, char *elem)
     if (!ret) {
         pr_info("nftnl: deleted %s from %s\n", elem, set);
     } else {
-        pr_err("nftnl: failed to remove %s from %s: %s\n", elem, set, strerror(ret));
+        pr_err("nftnl: failed to remove %s from %s: %s\n", elem, set, strerror(-ret));
     }
 
     return ret;
