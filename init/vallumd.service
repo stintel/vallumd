@@ -2,14 +2,44 @@
 Description=vallumd
 After=network.service
 
+# This unit file uses parameters introduced in recent systemd version.
+# This will cause a bunch of warnings on systems with older systemd
+# versions. However, these warnings are non-fatal and can be ignored.
+# Maintaining a unit file compatible with each of the supported
+# distributions is too big a burden for an upstream project to carry.
+# As such, please do not report issues about these warnings.
 [Service]
+AmbientCapabilities=CAP_NET_ADMIN
+CapabilityBoundingSet=CAP_NET_ADMIN
+DeviceAllow=
+DevicePolicy=closed
+DynamicUser=yes
 EnvironmentFile=-/etc/conf.d/vallumd
 EnvironmentFile=-/etc/default/vallumd
 EnvironmentFile=-/etc/sysconfig/vallumd
-Type=simple
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/usr/sbin/vallumd $VALLUMD_OPTIONS
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+PrivateDevices=yes
+ProcSubset=pid
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectProc=invisible
+ProtectSystem=strict
 Restart=always
+RestrictAddressFamilies=AF_INET AF_INET6 AF_NETLINK AF_UNIX
+RestrictNamespaces=yes
+RestrictRealtime=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+Type=simple
+UMask=0077
 
 [Install]
 WantedBy=multi-user.target
