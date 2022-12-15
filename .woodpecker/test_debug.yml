@@ -6,6 +6,11 @@ pipeline:
       # wait for service containers
       - sleep 5
       - py.test pytest/
+    when:
+      event:
+        - manual
+        - pull_request
+        - push
 
 services:
   svc-mosquitto:

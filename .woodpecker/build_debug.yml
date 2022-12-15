@@ -9,8 +9,9 @@ clone:
       tags: true
     when:
       event:
-        - push
         - manual
+        - pull_request
+        - push
 
 pipeline:
   build_debug_app:
@@ -23,6 +24,12 @@ pipeline:
       - cmake -DCMAKE_BUILD_TYPE=Debug
       - cpack -G DEB
       - apt -yy install ./build/*.deb
+    when:
+      event:
+        - manual
+        - pull_request
+        - push
+
 
   build_debug_container:
     # preferably set version to avoid breakage due to random versions being used
@@ -42,3 +49,8 @@ pipeline:
       registry: "${CI_REPO_LINK}"
       repo: "${CI_REPO_LINK##https://}-debug"
       username: "{CI_REPO_OWNER}"
+    when:
+      event:
+        - manual
+        - pull_request
+        - push

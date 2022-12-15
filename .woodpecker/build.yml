@@ -5,7 +5,10 @@ clone:
     settings:
       tags: true
     when:
-      event: push
+      event:
+        - manual
+        - pull_request
+        - push
 
 matrix:
   include:
@@ -40,7 +43,10 @@ pipeline:
       - cpack -G DEB
       - apt -yy install ./build/*.deb
     when:
-      event: push
+      event:
+        - manual
+        - pull_request
+        - push
       matrix:
         flavour: deb
 
@@ -53,7 +59,10 @@ pipeline:
       - cpack -G RPM
       - yum -y localinstall ./build/*.rpm
     when:
-      event: push
+      event:
+        - manual
+        - pull_request
+        - push
       matrix:
         flavour: rpm
 
