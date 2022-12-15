@@ -60,7 +60,7 @@ set (USE_BACKEND "ipset" CACHE STRING "vallumd backend")
 set_property(CACHE USE_BACKEND PROPERTY STRINGS "ipset" "nftables")
 
 if (${USE_BACKEND} STREQUAL "ipset")
-    pkg_check_modules(LIBIPSET QUIET libipset)
+    pkg_check_modules(LIBIPSET libipset)
 
     option (WITH_LIBIPSET_V6_COMPAT "Enable compatibility with libipset version 6" OFF)
     if ((LIBIPSET_FOUND AND LIBIPSET_VERSION VERSION_LESS 7) OR WITH_LIBIPSET_V6_COMPAT)
@@ -73,8 +73,8 @@ if (${USE_BACKEND} STREQUAL "ipset")
 endif()
 
 if (${USE_BACKEND} STREQUAL "nftables")
-    pkg_check_modules(LIBMNL QUIET libmnl)
-    pkg_check_modules(LIBNFTNL QUIET libnftnl)
+    pkg_check_modules(LIBMNL libmnl)
+    pkg_check_modules(LIBNFTNL libnftnl)
 
     add_compile_options(-DUSE_NFTABLES)
     set (BACKEND_SOURCE "src/nftnl.c")
@@ -83,7 +83,7 @@ endif()
 
 option (WITH_TLS "Enable TLS support" ON)
 if (${WITH_TLS} STREQUAL ON)
-    pkg_search_module(LIBSSL QUIET "libssl")
+    pkg_search_module(LIBSSL "libssl")
     if (LIBSSL_FOUND)
         add_definitions("-DWITH_TLS")
         list(APPEND ext_libs ssl)
@@ -108,12 +108,12 @@ elseif (EXISTS "/etc/redhat-release")
             DESTINATION "/etc/sysconfig")
 endif ()
 
-pkg_search_module(OPENRC QUIET "openrc")
+pkg_search_module(OPENRC "openrc")
 if (OPENRC_FOUND)
     install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/init/${PROJECT_NAME}.openrc"
             DESTINATION "/etc/init.d" RENAME "${PROJECT_NAME}")
 endif ()
-pkg_search_module(SYSTEMD QUIET "systemd")
+pkg_search_module(SYSTEMD "systemd")
 if (SYSTEMD_FOUND)
     if ("${SYSTEMD_SYSTEM_UNIT_DIR}" STREQUAL "")
         execute_process(COMMAND ${PKG_CONFIG_EXECUTABLE} systemd
