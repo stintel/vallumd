@@ -35,7 +35,7 @@ steps:
   build_deb:
     image: ${distro}:${distro_version}
     environment:
-      - DEBIAN_FRONTEND=noninteractive
+      DEBIAN_FRONTEND: noninteractive
     commands:
       - apt-get update
       - apt-get -yy --no-install-recommends install build-essential cmake file git libipset-dev libmosquitto-dev libssl-dev pkg-config

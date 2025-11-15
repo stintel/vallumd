@@ -16,14 +16,14 @@ services:
   svc-mosquitto:
     image: "${CI_REPO_LINK##https://}-debug:latest"
     environment:
-      - SVC=mosquitto
+      SVC: mosquitto
     pull: true
     ports: ["1883"]
 
   svc-vallumd:
     image: "${CI_REPO_LINK##https://}-debug:latest"
     environment:
-      - SVC=vallumd
+      SVC: vallumd
     pull: true
 
 depends_on:

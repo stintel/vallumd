@@ -17,7 +17,7 @@ steps:
   build_debug_app:
     image: *container_image
     environment:
-      - DEBIAN_FRONTEND=noninteractive
+      DEBIAN_FRONTEND: noninteractive
     commands:
       - apt-get update
       - apt-get -yy install --no-install-recommends build-essential cmake file git libipset-dev libmosquitto-dev libssl-dev pkg-config
