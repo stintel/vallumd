@@ -31,7 +31,7 @@ matrix:
       distro_version: 22.04
       flavour: deb
 
-pipeline:
+steps:
   build_deb:
     image: ${distro}:${distro_version}
     environment:

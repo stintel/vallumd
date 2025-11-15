@@ -6,7 +6,7 @@ clone:
     when:
       event: tag
 
-pipeline:
+steps:
   gitea_release:
     image: plugins/gitea-release
     settings:

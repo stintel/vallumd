@@ -13,7 +13,7 @@ clone:
         - pull_request
         - push
 
-pipeline:
+steps:
   build_debug_app:
     image: *container_image
     environment:
