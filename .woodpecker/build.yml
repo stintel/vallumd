@@ -53,6 +53,8 @@ steps:
   build_rpm:
     image: ${distro}:${distro_version}
     commands:
+      - sed -i 's|^mirrorlist|#mirrorlist|' /etc/yum.repos.d/CentOS-Base.repo
+      - sed -i 's|^#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|' /etc/yum.repos.d/CentOS-Base.repo
       - yum -y install epel-release
       - yum -y install cmake ipset-devel make mosquitto-devel openssl-devel pkgconfig '@Development Tools'
       - cmake .
