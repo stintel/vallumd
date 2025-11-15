@@ -24,6 +24,7 @@ services:
     image: "${CI_REPO_URL##https://}-debug:latest"
     environment:
       SVC: vallumd
+    ports: ["12345"]
     pull: true
 
 depends_on:
