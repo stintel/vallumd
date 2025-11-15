@@ -34,13 +34,11 @@ steps:
   build_debug_container:
     # preferably set version to avoid breakage due to random versions being used
     image: woodpeckerci/plugin-docker-buildx
-    environment:
-      container_image: *container_image
     settings:
       auto_tag: true
       dockerfile: .woodpecker/Dockerfile.debug
-      build_args_from_env:
-        - container_image
+      build_args:
+        container_image: *container_image
       debug: true
       # avoid MTU issues when building in K8S
       mtu: 1450
