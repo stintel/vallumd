@@ -51,7 +51,7 @@ Make sure you have the EPEL repository enabled.
 
 #### CentOS 7 dependencies
 ```
-sudo yum -y install cmake ipset-devel mosquitto-devel openssl-devel pkgconfig '@Development Tools'
+sudo yum -y install cmake3 ipset-devel mosquitto-devel openssl-devel pkgconfig '@Development Tools'
 ```
 
 #### Common
@@ -59,8 +59,8 @@ You can now generate an RPM package with cpack:
 ```
 git clone https://codeberg.org/stintel/vallumd.git
 cd vallumd
-cmake .
-cpack -G RPM
+cmake3 .
+cpack3 -G RPM
 
 sudo yum -y localinstall build/*.rpm
 ```

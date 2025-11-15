@@ -60,9 +60,9 @@ steps:
       - sed -i 's|^mirrorlist|#mirrorlist|' /etc/yum.repos.d/CentOS-Base.repo
       - sed -i 's|^#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|' /etc/yum.repos.d/CentOS-Base.repo
       - yum -y install epel-release
-      - yum -y install cmake ipset-devel make mosquitto-devel openssl-devel pkgconfig '@Development Tools'
-      - cmake .
-      - cpack -G RPM
+      - yum -y install cmake3 ipset-devel make mosquitto-devel openssl-devel pkgconfig '@Development Tools'
+      - cmake3 .
+      - cpack3 -G RPM
       - yum -y localinstall ./build/*.rpm
     when:
       event:
