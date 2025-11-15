@@ -37,6 +37,7 @@ steps:
     environment:
       DEBIAN_FRONTEND: noninteractive
     commands:
+      - grep -q buster /etc/apt/sources.list && sed -i 's|^deb http://deb.debian.org|deb http://archive.debian.org|' /etc/apt/sources.list
       - apt-get update
       - apt-get -yy --no-install-recommends install build-essential cmake file git libipset-dev libmosquitto-dev libssl-dev pkg-config
       - cmake .
