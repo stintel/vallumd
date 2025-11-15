@@ -33,7 +33,7 @@ steps:
 
   build_debug_container:
     # preferably set version to avoid breakage due to random versions being used
-    image: woodpeckerci/plugin-docker-buildx
+    image: woodpeckerci/plugin-docker-buildx:6
     settings:
       auto_tag: true
       dockerfile: .woodpecker/Dockerfile.debug
