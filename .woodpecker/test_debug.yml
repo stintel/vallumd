@@ -1,7 +1,7 @@
 ---
 steps:
   test_debug:
-    image: "${CI_REPO_LINK##https://}-debug:latest"
+    image: "${CI_REPO_URL##https://}-debug:latest"
     commands:
       # wait for service containers
       - sleep 5
@@ -14,14 +14,14 @@ steps:
 
 services:
   svc-mosquitto:
-    image: "${CI_REPO_LINK##https://}-debug:latest"
+    image: "${CI_REPO_URL##https://}-debug:latest"
     environment:
       SVC: mosquitto
     pull: true
     ports: ["1883"]
 
   svc-vallumd:
-    image: "${CI_REPO_LINK##https://}-debug:latest"
+    image: "${CI_REPO_URL##https://}-debug:latest"
     environment:
       SVC: vallumd
     pull: true

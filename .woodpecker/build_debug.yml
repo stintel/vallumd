@@ -44,8 +44,8 @@ steps:
       mtu: 1450
       password:
         from_secret: gitea_password
-      registry: "${CI_REPO_LINK}"
-      repo: "${CI_REPO_LINK##https://}-debug"
+      registry: "${CI_REPO_URL}"
+      repo: "${CI_REPO_URL##https://}-debug"
       username: "{CI_REPO_OWNER}"
     when:
       event:
