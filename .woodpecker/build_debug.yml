@@ -33,7 +33,7 @@ steps:
 
   build_debug_container:
     # preferably set version to avoid breakage due to random versions being used
-    image: woodpeckerci/plugin-docker-buildx:2.0.0
+    image: woodpeckerci/plugin-docker-buildx
     environment:
       container_image: *container_image
     settings:
