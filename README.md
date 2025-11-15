@@ -70,7 +70,7 @@ Build-tested on CentOS 7.
 
 You can generate a DEB package with cpack:
 ```
-sudo apt-get -y install build-essential cmake libipset-dev libmosquitto-dev libssl-dev pkg-config
+sudo apt-get -y install build-essential cmake file libipset-dev libmosquitto-dev libssl-dev pkg-config
 
 git clone https://codeberg.org/stintel/vallumd.git
 cd vallumd
