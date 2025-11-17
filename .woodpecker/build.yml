@@ -27,6 +27,9 @@ matrix:
     - distro: debian
       distro_version: 12
       flavour: deb
+    - distro: debian
+      distro_version: 13
+      flavour: deb
     - distro: ubuntu
       distro_version: 18.04
       flavour: deb
