@@ -8,7 +8,7 @@
 
 #include <syslog.h>
 
-#define pr_err(fmt, ...)    syslog(LOG_ERR, fmt, ##__VA_ARGS__)
-#define pr_info(fmt, ...)   syslog(LOG_INFO, fmt, ##__VA_ARGS__)
+#define pr_err(fmt, ...)  syslog(LOG_ERR, fmt, ##__VA_ARGS__)
+#define pr_info(fmt, ...) syslog(LOG_INFO, fmt, ##__VA_ARGS__)
 
 #endif /* LOG_H_INCLUDED */
