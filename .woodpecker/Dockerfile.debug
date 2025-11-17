@@ -15,7 +15,8 @@ RUN apt-get -yy install --no-install-recommends \
 	ipset \
 	mosquitto \
 	mosquitto-clients
-RUN pip3 install tavern[mqtt]==3.0.1
+RUN pip3 install uv
+RUN uv pip install --system tavern[mqtt]==3.0.1
 
 # minimal config to run mosquitto broker
 COPY .woodpecker/mosquitto.conf /etc/mosquitto/conf.d/local.conf
