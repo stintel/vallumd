@@ -39,6 +39,9 @@ matrix:
     - distro: ubuntu
       distro_version: 22.04
       flavour: deb
+    - distro: ubuntu
+      distro_version: 24.04
+      flavour: deb
 
 steps:
   build_deb:
