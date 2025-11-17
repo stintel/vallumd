@@ -10,6 +10,9 @@ clone:
         - pull_request
         - push
 
+labels:
+  location: sof.bg
+
 matrix:
   include:
     - distro: centos
