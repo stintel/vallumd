@@ -6,6 +6,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 COPY .woodpecker/entrypoint.sh.debug /entrypoint.sh
 COPY ./build/*.deb /tmp
 
+RUN mkdir /etc/apt.conf.d
+RUN printf 'Acquire::Retries "3";' > /etc/apt.conf.d/99retries
 RUN apt-get -yy update
 RUN apt-get -yy install --no-install-recommends \
 	/tmp/*.deb \
