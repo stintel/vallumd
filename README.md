@@ -79,7 +79,7 @@ cpack -G DEB
 
 sudo dpkg -i build/*.deb
 ```
-Build-tested on Debian 10, 11 and Ubuntu 18.04, 20.04, 22.04.
+Build-tested on Debian 10, 11, 12, 13 and Ubuntu 18.04, 20.04, 22.04, 24.04.
 
 ### Gentoo
 You can find a live ebuild for vallumd in my [Gentoo overlay](https://github.com/stintel/gentoo-overlay)
