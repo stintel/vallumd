@@ -14,24 +14,7 @@ RUN apt-get -yy install --no-install-recommends \
 	git \
 	ipset \
 	mosquitto \
-	mosquitto-clients \
-	python3-attr \
-	python3-dateutil \
-	python3-docopt \
-	python3-iniconfig \
-	python3-jmespath \
-	python3-jwt \
-	python3-packaging \
-	python3-paho-mqtt \
-	python3-pbr \
-	python3-pip \
-	python3-pluggy \
-	python3-pykwalify \
-	python3-pyparsing \
-	python3-requests \
-	python3-ruamel.yaml \
-	python3-urllib3 \
-	python3-yaml
+	mosquitto-clients
 RUN pip3 install git+https://github.com/stintel/tavern.git@mqtt_fix_unexpected
 
 # minimal config to run mosquitto broker
