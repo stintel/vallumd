@@ -1,0 +1,29 @@
+variables:
+  - &container_image 'ubuntu:22.04'
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      tags: true
+    when:
+      event:
+        - manual
+        - pull_request
+        - push
+
+steps:
+  clang_format:
+    image: *container_image
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+    commands:
+      - apt-get update
+      - apt-get -yy install --no-install-recommends clang-format-15
+      - clang-format-15 --Werror --dry-run src/*.c src/*.h
+    when:
+      event:
+        - manual
+        - pull_request
+        - push
+

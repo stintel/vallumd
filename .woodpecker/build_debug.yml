@@ -52,3 +52,6 @@ steps:
         - manual
         - pull_request
         - push
+
+depends_on:
+  - coding_style
