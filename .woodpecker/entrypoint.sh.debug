@@ -4,5 +4,5 @@
 [ "$SVC" = "vallumd" ] && {
 	ipset create test4 hash:ip family inet
 	ipset create test6 hash:ip family inet6
-	vallumd -h svc-mosquitto -t inet4 -t inet6
+	vallumd -h svc-mosquitto -t test4 -t test6
 }

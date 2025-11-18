@@ -11,7 +11,7 @@ stages:
   #16 - a83aaaf26b471df891fec04dab50aed24dbaf3c8
   - name: delete non-existent entry from empty IPv4 ipset
     mqtt_publish:
-      topic: inet4/del
+      topic: test4/del
       payload: 10.10.10.10
     mqtt_response:
       topic: vallumd/will
@@ -21,7 +21,7 @@ stages:
 
   - name: delete non-existent entry from empty IPv6 ipset
     mqtt_publish:
-      topic: inet6/del
+      topic: test6/del
       payload: fc00:6164:6b33:6300::1
     mqtt_response:
       topic: vallumd/will
@@ -32,7 +32,7 @@ stages:
   # correct attempts
   - name: add IPv4 IP to IPv4 ipset
     mqtt_publish:
-      topic: inet4/add
+      topic: test4/add
       payload: 10.10.10.10
     mqtt_response:
       topic: vallumd/will
@@ -42,7 +42,7 @@ stages:
 
   - name: delete IPv4 IP from IPv4 ipset
     mqtt_publish:
-      topic: inet4/del
+      topic: test4/del
       payload: 10.10.10.10
     mqtt_response:
       topic: vallumd/will
@@ -52,7 +52,7 @@ stages:
 
   - name: add IPv6 IP to IPv6 ipset
     mqtt_publish:
-      topic: inet6/add
+      topic: test6/add
       payload: fc00:6164:6b33:6300::1
     mqtt_response:
       topic: vallumd/will
@@ -62,7 +62,7 @@ stages:
 
   - name: delete IPv6 IP from IPv6 ipset
     mqtt_publish:
-      topic: inet6/del
+      topic: test6/del
       payload: fc00:6164:6b33:6300::1
     mqtt_response:
       topic: vallumd/will
@@ -73,7 +73,7 @@ stages:
   # incorrect attempts
   - name: add IPv6 IP to IPv4 ipset
     mqtt_publish:
-      topic: inet4/add
+      topic: test4/add
       payload: fc00:6164:6b33:6300::1
     mqtt_response:
       topic: vallumd/will
@@ -83,7 +83,7 @@ stages:
 
   - name: add IPv4 IP to IPv6 ipset
     mqtt_publish:
-      topic: inet6/add
+      topic: test6/add
       payload: 10.10.10.10
     mqtt_response:
       topic: vallumd/will
