@@ -22,4 +22,4 @@ COPY .woodpecker/mosquitto.conf /etc/mosquitto/conf.d/local.conf
 RUN mkdir /run/mosquitto
 RUN chown mosquitto /run/mosquitto
 
-ENTRYPOINT /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
