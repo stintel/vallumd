@@ -6,7 +6,7 @@
 #ifndef INET_H_INCLUDED
 #define INET_H_INCLUDED
 
-extern int get_inet_family(char *ipaddr);
-extern int ip_valid(char *ipaddr);
+extern int get_inet_family(const char *ipaddr);
+extern int ip_valid(const char *ipaddr);
 
 #endif /* INET_H_INCLUDED */
