@@ -29,7 +29,7 @@ static int exit_error(int e, struct ipset_session *sess)
     return e;
 }
 
-static int ipset_do(int c, char *set, char *elem)
+static int ipset_do(int c, const char *set, const char *elem)
 {
     const struct ipset_type *type = NULL;
     enum ipset_cmd cmd = c;
@@ -95,7 +95,7 @@ static int ipset_do(int c, char *set, char *elem)
     return 0;
 }
 
-int ipset_add(char *set, char *elem)
+int ipset_add(const char *set, const char *elem)
 {
     int ret = ipset_do(IPSET_CMD_ADD, set, elem);
     if (ret == 0) {
@@ -105,7 +105,7 @@ int ipset_add(char *set, char *elem)
     return ret;
 }
 
-int ipset_del(char *set, char *elem)
+int ipset_del(const char *set, const char *elem)
 {
     int ret = ipset_do(IPSET_CMD_DEL, set, elem);
     if (ret == 0) {

@@ -8,7 +8,7 @@
 
 #include <libipset/types.h>
 
-extern int ipset_add(char *set, char *elem);
-extern int ipset_del(char *set, char *elem);
+extern int ipset_add(const char *set, const char *elem);
+extern int ipset_del(const char *set, const char *elem);
 
 #endif /* IPSET_H_INCLUDED */
