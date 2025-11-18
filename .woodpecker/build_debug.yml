@@ -1,6 +1,6 @@
 ---
 variables:
-  - &container_image 'python:3.14-slim-trixie'
+  - &container_image 'python:3.14-slim-bookworm'
 
 clone:
   git:
