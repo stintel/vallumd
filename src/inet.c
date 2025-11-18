@@ -6,7 +6,7 @@
 #include <arpa/inet.h>
 #include <string.h>
 
-extern int get_inet_family(char *ipaddr)
+int get_inet_family(char *ipaddr)
 {
     unsigned char dst[sizeof(struct in6_addr)];
     unsigned int family = 0;
@@ -23,7 +23,7 @@ extern int get_inet_family(char *ipaddr)
     }
 }
 
-extern int ip_valid(char *ipaddr)
+int ip_valid(char *ipaddr)
 {
     return get_inet_family(ipaddr) != AF_UNSPEC;
 }
