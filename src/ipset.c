@@ -29,7 +29,7 @@ static int exit_error(int e, struct ipset_session *sess)
     return e;
 }
 
-int ipset_do(int c, char *set, char *elem)
+static int ipset_do(int c, char *set, char *elem)
 {
     const struct ipset_type *type = NULL;
     enum ipset_cmd cmd = c;
