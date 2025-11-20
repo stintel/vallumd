@@ -12,6 +12,8 @@
 #include "log.h"
 #include "mosquitto.h"
 
+static const int mqtt_keepalive = 60;
+
 static struct topic parse_topic(char *t)
 {
     struct topic pt;
@@ -82,7 +84,7 @@ static void gen_cid(char *mqtt_cid)
 int init_mqtt(void)
 {
     bool clean_session = true;
-    int keepalive = 60, ret;
+    int keepalive = mqtt_keepalive, ret;
     struct mosquitto *m = NULL;
 
     gen_cid(&mqttconn.cid[0]);
