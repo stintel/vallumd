@@ -17,7 +17,7 @@
 #include "inet.h"
 #include "log.h"
 
-static int exit_error(int e, struct ipset_session *sess)
+static int exit_error(int err, struct ipset_session *sess)
 {
 #ifdef WITH_LIBIPSET_V6_COMPAT
     pr_err("ipset: %s\n", ipset_session_error(sess));
@@ -26,7 +26,7 @@ static int exit_error(int e, struct ipset_session *sess)
 #endif
     ipset_session_fini(sess);
 
-    return e;
+    return err;
 }
 
 static int ipset_do(int c, const char *set, const char *elem)
