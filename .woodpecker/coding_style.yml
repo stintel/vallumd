@@ -1,5 +1,5 @@
 variables:
-  - &container_image 'ubuntu:22.04'
+  - &container_image 'alpine:3.22'
 
 clone:
   git:
@@ -15,14 +15,9 @@ clone:
 steps:
   clang_format:
     image: *container_image
-    environment:
-      DEBIAN_FRONTEND: noninteractive
     commands:
-      - mkdir /etc/apt.conf.d
-      - printf 'Acquire::Retries "3";' > /etc/apt.conf.d/99retries
-      - apt-get update
-      - apt-get -yy install --no-install-recommends clang-format-15
-      - clang-format-15 --Werror --dry-run src/*.c src/*.h
+      - apk add --no-cache clang20-extra-tools
+      - clang-format --Werror --dry-run src/*.c src/*.h
     when:
       event:
         - manual
