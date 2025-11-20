@@ -32,12 +32,13 @@ static struct topic parse_topic(char *topic)
     return parsed_topic;
 }
 
-static int set_will(struct mosquitto *m)
+static int set_will(struct mosquitto *mosq)
 {
-    return mosquitto_will_set(m, MQTT_WILL_TOPIC, strlen(mqttconn.cid), mqttconn.cid, MQTT_WILL_QOS, MQTT_WILL_RETAIN);
+    return mosquitto_will_set(mosq, MQTT_WILL_TOPIC, strlen(mqttconn.cid), mqttconn.cid, MQTT_WILL_QOS,
+                              MQTT_WILL_RETAIN);
 }
 
-static void cb_con(struct mosquitto *m, void *userdata, int result)
+static void cb_con(struct mosquitto *mosq, void *userdata, int result)
 {
     unsigned int t = 0;
 
@@ -49,7 +50,7 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
             topic = malloc(strlen(mqttconn.topics[t]) + 3);
             strcpy(topic, mqttconn.topics[t]);
             strcat(topic, "/#");
-            if (mosquitto_subscribe(m, NULL, topic, 2) == MOSQ_ERR_SUCCESS) {
+            if (mosquitto_subscribe(mosq, NULL, topic, 2) == MOSQ_ERR_SUCCESS) {
                 pr_info("Subscribed to topic %s", topic);
             }
             free(topic);
@@ -57,9 +58,9 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
     }
 }
 
-static void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_message *msg)
+static void cb_msg(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *msg)
 {
-    (void) m;
+    (void) mosq;
     (void) userdata;
     if (msg->payloadlen) {
         struct topic parsed_topic = parse_topic(msg->topic);
@@ -85,32 +86,32 @@ int init_mqtt(void)
 {
     bool clean_session = true;
     int keepalive = mqtt_keepalive, ret;
-    struct mosquitto *m = NULL;
+    struct mosquitto *mosq = NULL;
 
     gen_cid(&mqttconn.cid[0]);
 
     mosquitto_lib_init();
 
-    m = mosquitto_new(mqttconn.cid, clean_session, NULL);
+    mosq = mosquitto_new(mqttconn.cid, clean_session, NULL);
 
-    mosquitto_connect_callback_set(m, cb_con);
-    mosquitto_message_callback_set(m, cb_msg);
-    mosquitto_username_pw_set(m, mqttconn.username, mqttconn.password);
+    mosquitto_connect_callback_set(mosq, cb_con);
+    mosquitto_message_callback_set(mosq, cb_msg);
+    mosquitto_username_pw_set(mosq, mqttconn.username, mqttconn.password);
 
 #ifdef WITH_TLS
     if (mqttconn.tls) {
-        mosquitto_tls_set(m, mqttconn.cafile, NULL, NULL, NULL, NULL);
+        mosquitto_tls_set(mosq, mqttconn.cafile, NULL, NULL, NULL, NULL);
     }
 #endif
-    ret = set_will(m);
+    ret = set_will(mosq);
     if (ret) {
         pr_err("Failed to set LWT: %d\n", ret);
     }
-    mosquitto_connect(m, mqttconn.host, mqttconn.port, keepalive);
+    mosquitto_connect(mosq, mqttconn.host, mqttconn.port, keepalive);
 
-    mosquitto_loop_forever(m, -1, 1);
+    mosquitto_loop_forever(mosq, -1, 1);
 
-    mosquitto_destroy(m);
+    mosquitto_destroy(mosq);
     mosquitto_lib_cleanup();
     return 0;
 }
