@@ -14,18 +14,18 @@
 
 static const int mqtt_keepalive = 60;
 
-static struct topic parse_topic(char *t)
+static struct topic parse_topic(char *topic)
 {
     struct topic pt;
 
     pt.action = malloc(4);
-    pt.name = malloc(strlen(t) + 1);
+    pt.name = malloc(strlen(topic) + 1);
 
-    if (strchr(t, '/') != NULL) {
-        strcpy(pt.name, strsep(&t, "/"));
-        strcpy(pt.action, t);
+    if (strchr(topic, '/') != NULL) {
+        strcpy(pt.name, strsep(&topic, "/"));
+        strcpy(pt.action, topic);
     } else {
-        strcpy(pt.name, t);
+        strcpy(pt.name, topic);
         strcpy(pt.action, "add");
     }
 
