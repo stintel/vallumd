@@ -16,20 +16,20 @@ static const int mqtt_keepalive = 60;
 
 static struct topic parse_topic(char *topic)
 {
-    struct topic pt;
+    struct topic parsed_topic;
 
-    pt.action = malloc(4);
-    pt.name = malloc(strlen(topic) + 1);
+    parsed_topic.action = malloc(4);
+    parsed_topic.name = malloc(strlen(topic) + 1);
 
     if (strchr(topic, '/') != NULL) {
-        strcpy(pt.name, strsep(&topic, "/"));
-        strcpy(pt.action, topic);
+        strcpy(parsed_topic.name, strsep(&topic, "/"));
+        strcpy(parsed_topic.action, topic);
     } else {
-        strcpy(pt.name, topic);
-        strcpy(pt.action, "add");
+        strcpy(parsed_topic.name, topic);
+        strcpy(parsed_topic.action, "add");
     }
 
-    return pt;
+    return parsed_topic;
 }
 
 static int set_will(struct mosquitto *m)
@@ -62,14 +62,14 @@ static void cb_msg(struct mosquitto *m, void *userdata, const struct mosquitto_m
     (void) m;
     (void) userdata;
     if (msg->payloadlen) {
-        struct topic pt = parse_topic(msg->topic);
-        if (strcmp(pt.action, "add") == 0) {
-            ipset_add(pt.name, msg->payload);
-        } else if (strcmp(pt.action, "del") == 0) {
-            ipset_del(pt.name, msg->payload);
+        struct topic parsed_topic = parse_topic(msg->topic);
+        if (strcmp(parsed_topic.action, "add") == 0) {
+            ipset_add(parsed_topic.name, msg->payload);
+        } else if (strcmp(parsed_topic.action, "del") == 0) {
+            ipset_del(parsed_topic.name, msg->payload);
         }
-        free(pt.action);
-        free(pt.name);
+        free(parsed_topic.action);
+        free(parsed_topic.name);
     }
 }
 
