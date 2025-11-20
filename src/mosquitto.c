@@ -40,15 +40,15 @@ static int set_will(struct mosquitto *mosq)
 
 static void cb_con(struct mosquitto *mosq, void *userdata, int result)
 {
-    unsigned int t = 0;
+    unsigned int topic_idx = 0;
 
     (void) userdata;
     if (!result) {
         char *topic = NULL;
         pr_info("Connected to %s:%d using CID %s\n", mqttconn.host, mqttconn.port, mqttconn.cid);
-        for (t = 0; t < mqttconn.ntopics; t++) {
-            topic = malloc(strlen(mqttconn.topics[t]) + 3);
-            strcpy(topic, mqttconn.topics[t]);
+        for (topic_idx = 0; topic_idx < mqttconn.ntopics; topic_idx++) {
+            topic = malloc(strlen(mqttconn.topics[topic_idx]) + 3);
+            strcpy(topic, mqttconn.topics[topic_idx]);
             strcat(topic, "/#");
             if (mosquitto_subscribe(mosq, NULL, topic, 2) == MOSQ_ERR_SUCCESS) {
                 pr_info("Subscribed to topic %s", topic);
