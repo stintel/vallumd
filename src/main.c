@@ -74,8 +74,7 @@ int main(int argc, char **argv)
                 mqttconn.password = optarg;
                 break;
             case 't':
-                mqttconn.topics[topic_idx] = malloc((strlen(optarg) + 1) * sizeof(char));
-                strcpy(mqttconn.topics[topic_idx], optarg);
+                mqttconn.topics[topic_idx] = strdup(optarg);
                 topic_idx++;
                 break;
 #ifdef WITH_TLS
