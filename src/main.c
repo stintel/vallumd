@@ -54,6 +54,11 @@ int main(int argc, char **argv)
         }
     }
 
+    if (mqttconn.ntopics == 0) {
+        print_usage();
+        return 1;
+    }
+
     mqttconn.topics = malloc(mqttconn.ntopics * sizeof(*mqttconn.topics));
 
     optind = 0;
@@ -93,7 +98,7 @@ int main(int argc, char **argv)
         }
     }
 
-    if (mqttconn.host == NULL || mqttconn.ntopics == 0) {
+    if (mqttconn.host == NULL) {
         print_usage();
         return 1;
     }
