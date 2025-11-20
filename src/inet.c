@@ -18,9 +18,9 @@ int get_inet_family(const char *ipaddr)
 
     if (ret == 1) {
         return family;
-    } else {
-        return AF_UNSPEC;
     }
+
+    return AF_UNSPEC;
 }
 
 int ip_valid(const char *ipaddr)
