@@ -90,3 +90,14 @@ stages:
       payload: !anything
       timeout: 1
       unexpected: true
+
+  #19
+  - name: post to subtopic
+    mqtt_publish:
+      topic: test/subtopic
+      payload: test
+    mqtt_response:
+      topic: vallumd/will
+      payload: !anything
+      timeout: 1
+      unexpected: true
