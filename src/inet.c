@@ -8,8 +8,8 @@
 
 int get_inet_family(const char *ipaddr)
 {
+    int family = 0;
     unsigned char dst[sizeof(struct in6_addr)];
-    unsigned int family = 0;
     unsigned int ret = 0;
 
     family = strchr(ipaddr, '.') ? AF_INET : AF_INET6;
