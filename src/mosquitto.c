@@ -32,8 +32,8 @@ static struct topic parse_topic(char *topic)
 
 static int set_will(struct mosquitto *mosq)
 {
-    return mosquitto_will_set(mosq, MQTT_WILL_TOPIC, strlen(mqttconn.cid), mqttconn.cid, MQTT_WILL_QOS,
-                              MQTT_WILL_RETAIN);
+    size_t len = strlen(mqttconn.cid);
+    return mosquitto_will_set(mosq, MQTT_WILL_TOPIC, (int) len, mqttconn.cid, MQTT_WILL_QOS, MQTT_WILL_RETAIN);
 }
 
 static void cb_con(struct mosquitto *mosq, void *userdata, int result)
