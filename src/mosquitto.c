@@ -81,7 +81,8 @@ static void gen_cid(char *mqtt_cid)
 int init_mqtt(void)
 {
     bool clean_session = true;
-    int keepalive = mqtt_keepalive, ret;
+    int keepalive = mqtt_keepalive;
+    int ret;
     struct mosquitto *mosq = NULL;
 
     gen_cid(&mqttconn.cid[0]);
