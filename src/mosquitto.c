@@ -18,15 +18,12 @@ static struct topic parse_topic(char *topic)
 {
     struct topic parsed_topic;
 
-    parsed_topic.action = malloc(4);
-    parsed_topic.name = malloc(strlen(topic) + 1);
-
     if (strchr(topic, '/') != NULL) {
-        strcpy(parsed_topic.name, strsep(&topic, "/"));
-        strcpy(parsed_topic.action, topic);
+        parsed_topic.action = strdup(strsep(&topic, "/"));
+        parsed_topic.name = strdup(topic);
     } else {
-        strcpy(parsed_topic.name, topic);
-        strcpy(parsed_topic.action, "add");
+        parsed_topic.action = strdup(topic);
+        parsed_topic.name = strdup("add");
     }
 
     return parsed_topic;
