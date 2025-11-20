@@ -1,0 +1,27 @@
+variables:
+  - &container_image 'alpine:3.22'
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      tags: true
+    when:
+      event:
+        - manual
+        - pull_request
+        - push
+
+steps:
+  clang_tidy:
+    image: *container_image
+    commands:
+      - apk add --no-cache clang20-extra-tools cmake git ipset-dev make mosquitto-dev openssl-dev
+      - cmake .
+      - clang-tidy -checks='bugprone-*,clang-analyzer-*,modernize-*,performance-*,readability-*' src/*.c -- -I /usr/include/ -I . -std=gnu99
+    when:
+      event:
+        - manual
+        - pull_request
+        - push
+

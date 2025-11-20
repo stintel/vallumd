@@ -57,3 +57,4 @@ steps:
 
 depends_on:
   - coding_style
+  - static_analysis
