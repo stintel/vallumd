@@ -32,7 +32,7 @@ static struct topic parse_topic(char *t)
 
 static int set_will(struct mosquitto *m)
 {
-    return mosquitto_will_set(m, MQTT_WILL_TOPIC, strlen(mc.cid), mc.cid, MQTT_WILL_QOS, MQTT_WILL_RETAIN);
+    return mosquitto_will_set(m, MQTT_WILL_TOPIC, strlen(mqttconn.cid), mqttconn.cid, MQTT_WILL_QOS, MQTT_WILL_RETAIN);
 }
 
 static void cb_con(struct mosquitto *m, void *userdata, int result)
@@ -42,10 +42,10 @@ static void cb_con(struct mosquitto *m, void *userdata, int result)
     (void) userdata;
     if (!result) {
         char *topic = NULL;
-        pr_info("Connected to %s:%d using CID %s\n", mc.host, mc.port, mc.cid);
-        for (t = 0; t < mc.ntopics; t++) {
-            topic = malloc(strlen(mc.topics[t]) + 3);
-            strcpy(topic, mc.topics[t]);
+        pr_info("Connected to %s:%d using CID %s\n", mqttconn.host, mqttconn.port, mqttconn.cid);
+        for (t = 0; t < mqttconn.ntopics; t++) {
+            topic = malloc(strlen(mqttconn.topics[t]) + 3);
+            strcpy(topic, mqttconn.topics[t]);
             strcat(topic, "/#");
             if (mosquitto_subscribe(m, NULL, topic, 2) == MOSQ_ERR_SUCCESS) {
                 pr_info("Subscribed to topic %s", topic);
@@ -85,26 +85,26 @@ int init_mqtt(void)
     int keepalive = 60, ret;
     struct mosquitto *m = NULL;
 
-    gen_cid(&mc.cid[0]);
+    gen_cid(&mqttconn.cid[0]);
 
     mosquitto_lib_init();
 
-    m = mosquitto_new(mc.cid, clean_session, NULL);
+    m = mosquitto_new(mqttconn.cid, clean_session, NULL);
 
     mosquitto_connect_callback_set(m, cb_con);
     mosquitto_message_callback_set(m, cb_msg);
-    mosquitto_username_pw_set(m, mc.username, mc.password);
+    mosquitto_username_pw_set(m, mqttconn.username, mqttconn.password);
 
 #ifdef WITH_TLS
-    if (mc.tls) {
-        mosquitto_tls_set(m, mc.cafile, NULL, NULL, NULL, NULL);
+    if (mqttconn.tls) {
+        mosquitto_tls_set(m, mqttconn.cafile, NULL, NULL, NULL, NULL);
     }
 #endif
     ret = set_will(m);
     if (ret) {
         pr_err("Failed to set LWT: %d\n", ret);
     }
-    mosquitto_connect(m, mc.host, mc.port, keepalive);
+    mosquitto_connect(m, mqttconn.host, mqttconn.port, keepalive);
 
     mosquitto_loop_forever(m, -1, 1);
 

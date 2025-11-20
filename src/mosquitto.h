@@ -37,6 +37,6 @@ struct topic {
     char *name;
 };
 
-extern struct mqtt_conn mc;
+extern struct mqtt_conn mqttconn;
 
 #endif /* MOSQUITTO_H_INCLUDED */

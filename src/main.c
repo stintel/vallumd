@@ -13,7 +13,7 @@
 #include "log.h"
 #include "mosquitto.h"
 
-struct mqtt_conn mc = {
+struct mqtt_conn mqttconn = {
     .port = 1883,
     .ntopics = 0,
 #ifdef WITH_TLS
@@ -46,39 +46,39 @@ int main(int argc, char **argv)
 
     while ((opt = getopt(argc, argv, "c:h:p:P:t:Tu:V")) != -1) {
         if (opt == 't') {
-            mc.ntopics++;
+            mqttconn.ntopics++;
         }
     }
 
-    mc.topics = malloc(mc.ntopics * sizeof(*mc.topics));
+    mqttconn.topics = malloc(mqttconn.ntopics * sizeof(*mqttconn.topics));
 
     optind = 0;
     while ((opt = getopt(argc, argv, "c:h:p:P:t:Tu:V")) != -1) {
         switch (opt) {
             case 'h':
-                mc.host = optarg;
+                mqttconn.host = optarg;
                 break;
             case 'p':
-                mc.port = atoi(optarg);
+                mqttconn.port = atoi(optarg);
                 break;
             case 'P':
-                mc.password = optarg;
+                mqttconn.password = optarg;
                 break;
             case 't':
-                mc.topics[t] = malloc((strlen(optarg) + 1) * sizeof(char));
-                strcpy(mc.topics[t], optarg);
+                mqttconn.topics[t] = malloc((strlen(optarg) + 1) * sizeof(char));
+                strcpy(mqttconn.topics[t], optarg);
                 t++;
                 break;
 #ifdef WITH_TLS
             case 'c':
-                mc.cafile = optarg;
+                mqttconn.cafile = optarg;
                 break;
             case 'T':
-                mc.tls = true;
+                mqttconn.tls = true;
                 break;
 #endif
             case 'u':
-                mc.username = optarg;
+                mqttconn.username = optarg;
                 break;
             case 'V':
                 fprintf(stdout, "vallumd-%s\n", VERSION);
@@ -89,16 +89,16 @@ int main(int argc, char **argv)
         }
     }
 
-    if (mc.host == NULL || mc.ntopics == 0) {
+    if (mqttconn.host == NULL || mqttconn.ntopics == 0) {
         print_usage();
         return 1;
     }
 
 #ifdef WITH_TLS
-    if (mc.tls) {
-        if (mc.cafile) {
-            if (access(mc.cafile, F_OK) == -1) {
-                fprintf(stderr, "CA file %s does not exist.\n", mc.cafile);
+    if (mqttconn.tls) {
+        if (mqttconn.cafile) {
+            if (access(mqttconn.cafile, F_OK) == -1) {
+                fprintf(stderr, "CA file %s does not exist.\n", mqttconn.cafile);
                 return 1;
             }
         } else {
