@@ -13,8 +13,12 @@
 #include "log.h"
 #include "mosquitto.h"
 
+enum {
+    default_mqtt_port = 1883
+};
+
 struct mqtt_conn mqttconn = {
-    .port = 1883,
+    .port = default_mqtt_port,
     .ntopics = 0,
 #ifdef WITH_TLS
     .tls = false,
@@ -25,7 +29,7 @@ static void print_usage(void)
 {
     printf("Usage: -h host [-p port] [-u username] [-P password] -t topic1 [-t topicN]\n");
     printf(" -h: MQTT host to connect to\n");
-    printf(" -p: MQTT port to connect to (1883)\n");
+    printf(" -p: MQTT port to connect to (%d)\n", default_mqtt_port);
     printf(" -u: MQTT username\n");
     printf(" -P: MQTT password\n");
     printf(" -t: MQTT topic and IPset name\n");
