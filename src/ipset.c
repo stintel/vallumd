@@ -29,10 +29,10 @@ static int exit_error(int err, struct ipset_session *sess)
     return err;
 }
 
-static int ipset_do(int c, const char *set, const char *elem)
+static int ipset_do(int command, const char *set, const char *elem)
 {
     const struct ipset_type *type = NULL;
-    enum ipset_cmd cmd = c;
+    enum ipset_cmd cmd = command;
     int family = 0, ret = 0;
     struct ipset_session *sess;
 
