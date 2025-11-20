@@ -44,7 +44,7 @@ static void print_usage(void)
 int main(int argc, char **argv)
 {
     int opt = 0;
-    unsigned int t = 0;
+    unsigned int topic_idx = 0;
 
     openlog("vallumd", LOG_PID, LOG_DAEMON);
 
@@ -69,9 +69,9 @@ int main(int argc, char **argv)
                 mqttconn.password = optarg;
                 break;
             case 't':
-                mqttconn.topics[t] = malloc((strlen(optarg) + 1) * sizeof(char));
-                strcpy(mqttconn.topics[t], optarg);
-                t++;
+                mqttconn.topics[topic_idx] = malloc((strlen(optarg) + 1) * sizeof(char));
+                strcpy(mqttconn.topics[topic_idx], optarg);
+                topic_idx++;
                 break;
 #ifdef WITH_TLS
             case 'c':
