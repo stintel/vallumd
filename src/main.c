@@ -59,7 +59,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    mqttconn.topics = malloc(mqttconn.ntopics * sizeof(*mqttconn.topics));
+    mqttconn.topics = (char **) malloc(mqttconn.ntopics * sizeof(*mqttconn.topics));
 
     optind = 0;
     while ((opt = getopt(argc, argv, "c:h:p:P:t:Tu:V")) != -1) {
