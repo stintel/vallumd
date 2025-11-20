@@ -12,6 +12,7 @@
 #include "log.h"
 #include "mosquitto.h"
 
+static const int mqtt_cid_hostname_len = 15;
 static const int mqtt_keepalive = 60;
 
 static struct topic parse_topic(char *topic)
@@ -71,9 +72,9 @@ static void cb_msg(struct mosquitto *mosq, void *userdata, const struct mosquitt
 
 static void gen_cid(char *mqtt_cid)
 {
-    char hostname[16];
+    char hostname[mqtt_cid_hostname_len + 1];
 
-    gethostname(hostname, 15);
+    gethostname(hostname, mqtt_cid_hostname_len);
     snprintf(mqtt_cid, MOSQ_MQTT_ID_MAX_LENGTH, "%s-%d", hostname, getpid());
 }
 
