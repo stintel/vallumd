@@ -49,7 +49,10 @@ int main(int argc, char **argv)
     openlog("vallumd", LOG_PID, LOG_DAEMON);
 
     while ((opt = getopt(argc, argv, "c:h:p:P:t:Tu:V")) != -1) {
-        if (opt == 't') {
+        if (opt == 'V') {
+            fprintf(stdout, "vallumd-%s\n", VERSION);
+            return 0;
+        } else if (opt == 't') {
             mqttconn.ntopics++;
         }
     }
@@ -88,9 +91,6 @@ int main(int argc, char **argv)
             case 'u':
                 mqttconn.username = optarg;
                 break;
-            case 'V':
-                fprintf(stdout, "vallumd-%s\n", VERSION);
-                return 0;
             default:
                 print_usage();
                 return 1;
