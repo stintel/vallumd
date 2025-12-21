@@ -44,6 +44,10 @@ The nicest way to install any package, is by using your distribution's
 package management. However, since this project is very young, it has not been
 included in many distributions yet.
 
+### Arch Linux
+
+A package that tracks git's master branch is available in the [AUR](https://aur.archlinux.org/packages/vallumd-git).
+
 ### CentOS/RedHat
 
 Make sure you have the EPEL repository enabled.
