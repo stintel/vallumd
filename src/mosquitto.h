@@ -16,7 +16,7 @@
 
 #include <mosquitto.h>
 
-extern int init_mqtt();
+extern int init_mqtt(void);
 
 struct mqtt_conn {
     char *host;
