@@ -20,11 +20,11 @@ static struct topic parse_topic(char *topic)
     struct topic parsed_topic;
 
     if (strchr(topic, '/') != NULL) {
-        parsed_topic.action = strdup(strsep(&topic, "/"));
-        parsed_topic.name = strdup(topic);
-    } else {
+        parsed_topic.name = strdup(strsep(&topic, "/"));
         parsed_topic.action = strdup(topic);
-        parsed_topic.name = strdup("add");
+    } else {
+        parsed_topic.name = strdup(topic);
+        parsed_topic.action = strdup("add");
     }
 
     return parsed_topic;
