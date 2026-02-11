@@ -7,7 +7,7 @@ project(vallumd C)
 
 set (VERSION_MAJOR 0)
 set (VERSION_MINOR 2)
-set (VERSION_PATCH 2)
+set (VERSION_PATCH 3)
 
 if (EXISTS .git/)
     execute_process(COMMAND git describe --tags --dirty
