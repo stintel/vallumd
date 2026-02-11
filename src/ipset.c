@@ -78,7 +78,8 @@ static int ipset_do(int command, const char *set, const char *elem)
     family = ipset_data_family(ipset_session_data(sess));
     if (family != get_inet_family(elem)) {
         pr_err("ipset: address %s does not match family of set %s", elem, set);
-        return 1;
+        ret = 1;
+        goto cleanup;
     }
 
     ret = ipset_parse_elem(sess, type->last_elem_optional, elem);
@@ -91,9 +92,10 @@ static int ipset_do(int command, const char *set, const char *elem)
         return exit_error(1, sess);
     }
 
+cleanup:
     ipset_session_fini(sess);
 
-    return 0;
+    return ret;
 }
 
 int ipset_add(const char *set, const char *elem)
