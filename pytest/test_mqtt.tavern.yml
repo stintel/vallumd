@@ -91,6 +91,16 @@ stages:
       timeout: 1
       unexpected: true
 
+  - name: send binary data
+    mqtt_publish:
+      topic: test4/add
+      payload: b'A'*4096
+    mqtt_response:
+      topic: vallumd/will
+      payload: !anything
+      timeout: 1
+      unexpected: true
+
   #19
   - name: post to subtopic
     mqtt_publish:
