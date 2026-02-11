@@ -59,6 +59,7 @@ static void cb_msg(struct mosquitto *mosq, void *userdata, const struct mosquitt
     (void) mosq;
     (void) userdata;
     if (msg->payloadlen) {
+        char *payload = strndup(msg->payload, msg->payloadlen);
         struct topic parsed_topic = parse_topic(msg->topic);
         if (strcmp(parsed_topic.action, "add") == 0) {
             ipset_add(parsed_topic.name, msg->payload);
@@ -67,6 +68,7 @@ static void cb_msg(struct mosquitto *mosq, void *userdata, const struct mosquitt
         }
         free(parsed_topic.action);
         free(parsed_topic.name);
+        free(payload);
     }
 }
 
