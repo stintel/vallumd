@@ -62,9 +62,9 @@ static void cb_msg(struct mosquitto *mosq, void *userdata, const struct mosquitt
         char *payload = strndup(msg->payload, msg->payloadlen);
         struct topic parsed_topic = parse_topic(msg->topic);
         if (strcmp(parsed_topic.action, "add") == 0) {
-            ipset_add(parsed_topic.name, msg->payload);
+            ipset_add(parsed_topic.name, payload);
         } else if (strcmp(parsed_topic.action, "del") == 0) {
-            ipset_del(parsed_topic.name, msg->payload);
+            ipset_del(parsed_topic.name, payload);
         }
         free(parsed_topic.action);
         free(parsed_topic.name);
