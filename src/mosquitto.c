@@ -65,11 +65,16 @@ static void cb_msg(struct mosquitto *mosq, void *userdata, const struct mosquitt
             return;
         }
         struct topic parsed_topic = parse_topic(msg->topic);
+        if (!parsed_topic.action || !parsed_topic.name) {
+            pr_err("Failed to parse topic\n");
+            goto cleanup;
+        }
         if (strcmp(parsed_topic.action, "add") == 0) {
             ipset_add(parsed_topic.name, payload);
         } else if (strcmp(parsed_topic.action, "del") == 0) {
             ipset_del(parsed_topic.name, payload);
         }
+cleanup:
         free(parsed_topic.action);
         free(parsed_topic.name);
         free(payload);
